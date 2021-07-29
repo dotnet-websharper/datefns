@@ -341,6 +341,31 @@ module Definition =
             ]
         }
 
+    let AreIntervalsOverlappingOptions =
+        Pattern.Config "AreIntervalsOverlappingOptions" {
+            Required = []
+            Optional = [
+                "inclusive", T<bool>
+            ]
+        }
+
+    let EachDHMOfIntervalOptions =
+        Pattern.Config "EachDayOfIntervalOptions" {
+            Required = []
+            Optional = [
+                "step", Num
+            ]
+        }
+
+    let EachWeekOfIntervalOptions =
+        Pattern.Config "EachWeekOfIntervalOptions" {
+            Required = []
+            Optional = [
+                "locale", Locale.Type
+                "weekStartsOn", DayFromZero.Type
+            ]
+        }
+
     let DateFNS =
         Class "DateFNS"
         |+> Static [
@@ -461,7 +486,30 @@ module Definition =
             "yearsToQuarters" => Num?years ^-> Num
             |> WithComment "Convert a number of years to a full number of quarters"
             // Interval helpers
-            // TODO
+            "areIntervalsOverlapping" => Interval?intervalLeft * Interval?intervalRight * !? AreIntervalsOverlappingOptions?options ^-> T<bool>
+            |> WithComment "Is the given time interval overlapping with another time interval? Adjacent intervals do not count as overlapping"
+            "clamp" => (T<Date> + Num)?date * Interval?interval ^-> T<Date>
+            |> WithComment "Clamps a date to the lower bound with the start of the interval and the upper bound with the end of the interval"
+            "eachDayOfInterval" => Interval?interval * !? EachDHMOfIntervalOptions?options ^-> !| T<Date>
+            |> WithComment "Return the array of dates within the specified time interval"
+            "eachHourOfInterval" => Interval?interval * !? EachDHMOfIntervalOptions?options ^-> !| T<Date>
+            |> WithComment "Return the array of hours within the specified time interval"
+            "eachMinuteOfInterval" => Interval?interval * !? EachDHMOfIntervalOptions?options ^-> !| T<Date>
+            |> WithComment "Returns the array of minutes within the specified time interval"
+            "eachMonthOfInterval" => Interval?interval ^-> !| T<Date>
+            |> WithComment "Return the array of months within the specified time interval"
+            "eachQuarterOfInterval" => Interval?interval ^-> !| T<Date>
+            |> WithComment "Return the array of quarters within the specified time interval"
+            "eachWeekOfInterval" => Interval?interval * !? EachWeekOfIntervalOptions?options ^-> !| T<Date>
+            |> WithComment "Return the array of weeks within the specified time interval"
+            "eachWeekendOfInterval" => Interval?interval ^-> !| T<Date>
+            |> WithComment "Get all the Saturdays and Sundays in the given date interval"
+            "eachYearOfInterval" => Interval?interval ^-> !| T<Date>
+            |> WithComment "Return the array of yearly timestamps within the specified time interval"
+            "getOverlappingDaysInIntervals" => Interval?intervalLeft * Interval?intervalRight ^-> !| Num
+            |> WithComment "Get the number of days that overlap in two time intervals"
+            "isWithinInterval" => (T<Date> + Num)?date * Interval?interval ^-> T<bool>
+            |> WithComment "Is the given date within the interval? (Including start and end)"
             // Timestamp helpers
             // TODO
             // Millisecond helpers
@@ -535,6 +583,9 @@ module Definition =
                 AdditionalDigits
                 ParseISOOptions
                 SetValues
+                AreIntervalsOverlappingOptions
+                EachDHMOfIntervalOptions
+                EachWeekOfIntervalOptions
                 DateFNS
             ]
         ]
