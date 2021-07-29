@@ -402,6 +402,14 @@ module Definition =
             ]
         }
 
+    let LastDayOfQuarterOptions =
+        Pattern.Config "LastDayOfQuarterOptions" {
+            Required = []
+            Optional = [
+                "additionalDigits", AdditionalDigits.Type
+            ]
+        }
+
     let DateFNS =
         Class "globalThis['date-fns']"
         |> WithSourceName "DateFNS"
@@ -790,7 +798,28 @@ module Definition =
             "subMonths" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of months from the given date"
             // Quarter helpers
-            // TODO
+            "addQuarters" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of year quarters to the given date"
+            "differenceInCalendarQuarters" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of calendar quarters between the given dates"
+            "differenceInQuarters" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of full quarters between the given dates"
+            "endOfQuarter" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of a year quarter for the given date. The result will be in the local timezone"
+            "getQuarter" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the year quarter of the given date"
+            "isSameQuarter" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same year quarter?"
+            "isThisQuarter" => (T<Date> + Num)?date ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "lastDayOfQuarter" => (T<Date> + Num)?date * !? LastDayOfQuarterOptions?options ^-> T<Date>
+            |> WithComment "Return the last day of a year quarter for the given date. The result will be in the local timezone"
+            "setQuarter" => (T<Date> + Num)?date * Num?quarter ^-> T<Date>
+            |> WithComment "Set the year quarter to the given date"
+            "startOfQuarter" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of a year quarter for the given date. The result will be in the local timezone"
+            "subQuarters" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of year quarters from the given date"
             // Year helpers
             // TODO
             // ISO Week-Numbering Year helpers
@@ -849,6 +878,7 @@ module Definition =
                 SetDayOptions
                 WeekHelperOptions1
                 WeekHelperOptions2
+                LastDayOfQuarterOptions
                 DateFNS
             ]
         ]
