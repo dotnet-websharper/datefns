@@ -910,10 +910,10 @@ module Definition =
 
     let Assembly =
         Assembly [
-            // Namespace "WebSharper.DateFNS.Resource" [
-            //     Resource "DateFNSCDN" "https://cdn.jsdelivr.net/npm/date-fns@2.23.0/index.min.js"
-            //     |> AssemblyWide
-            // ]
+            Namespace "WebSharper.DateFNS.Resource" [
+                Resource "DateFNSCDN" "datefns-min.js"
+                |> AssemblyWide
+            ]
             Namespace "WebSharper.DateFNS" [
                 Interval
                 Localize
