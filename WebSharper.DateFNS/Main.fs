@@ -579,7 +579,7 @@ module Definition =
             "isSameSecond" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same second?"
             "isThisSecond" => (T<Date> + Num)?date ^-> T<bool>
-            |> WithComment "Is the given date in the same second as the current date?"
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
             "setSeconds" => (T<Date> + Num)?date * Num?seconds ^-> T<Date>
             |> WithComment "Set the seconds to the given date"
             "startOfSecond" => (T<Date> + Num)?date ^-> T<Date>
@@ -598,7 +598,7 @@ module Definition =
             "isSameMinute" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same minute?"
             "isThisMinute" => (T<Date> + Num)?date ^-> T<bool>
-            |> WithComment "Is the given date in the same minute as the current date?"
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
             "roundToNearestMinutes" => (T<Date> + Num)?date * !? RoundToNearestMinuteOptions?options ^-> T<Date>
             |> WithComment "Rounds the given date to the nearest minute (or number of minutes). Rounds up when the given date is exactly between the nearest round minutes"
             "setMinutes" => (T<Date> + Num)?date * Num?minutes ^-> T<Date>
@@ -619,7 +619,7 @@ module Definition =
             "isSameHour" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same hour?"
             "isThisHour" => (T<Date> + Num)?date ^-> T<bool>
-            |> WithComment "Is the given date in the same hour as the current date?"
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
             "setHours" => (T<Date> + Num)?date * Num?hours ^-> T<Date>
             |> WithComment "Set the hours to the given date"
             "startOfHour" => (T<Date> + Num)?date ^-> T<Date>
@@ -759,7 +759,36 @@ module Definition =
             "startOfISOWeek" => (T<Date> + Num)?date ^-> T<Date>
             |> WithComment "Return the start of an ISO week for the given date. The result will be in the local timezone"
             // Month helpers
-            // TODO
+            "addMonths" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of months to the given date"
+            "differenceInCalendarMonths" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of calendar months between the given dates"
+            "differenceInMonths" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of full months between the given dates"
+            "eachWeekendOfMonth" => (T<Date> + Num)?date ^-> !| T<Date>
+            |> WithComment "Get all the Saturdays and Sundays in the given month"
+            "endOfMonth" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of a month for the given date. The result will be in the local timezone"
+            "getDaysInMonth" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the number of days in a month of the given date"
+            "getMonth" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the month of the given date"
+            "isFirstDayOfMonth" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date the first day of a month?"
+            "isLastDayOfMonth" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date the last day of a month?"
+            "isSameMonth" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same month?"
+            "isThisMonth" => (T<Date> + Num)?date ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "lastDayOfMonth" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the last day of a month for the given date. The result will be in the local timezone"
+            "setMonth" => (T<Date> + Num)?date * Num?month ^-> T<Date>
+            |> WithComment "Set the month to the given date"
+            "startOfMonth" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of a month for the given date. The result will be in the local timezone"
+            "subMonths" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of months from the given date"
             // Quarter helpers
             // TODO
             // Year helpers
