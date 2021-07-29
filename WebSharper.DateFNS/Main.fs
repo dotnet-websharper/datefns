@@ -1,4 +1,4 @@
-﻿namespace WebSharper.DateFNS
+﻿namespace WebSharper.DateFNS.Extension
 
 open WebSharper
 open WebSharper.JavaScript
@@ -366,8 +366,12 @@ module Definition =
             ]
         }
 
+    // let inliner (x: CodeModel.MethodBase) =
+    //     WithInline ("globalThis['date-fns']" + x.Name) x
+
     let DateFNS =
-        Class "DateFNS"
+        Class "globalThis['date-fns']"
+        |> WithSourceName "DateFNS"
         |+> Static [
             // Common helpers
             "add" => (T<Date> + Num)?date * Duration?duration ^-> T<Date>
@@ -511,6 +515,12 @@ module Definition =
             "isWithinInterval" => (T<Date> + Num)?date * Interval?interval ^-> T<bool>
             |> WithComment "Is the given date within the interval? (Including start and end)"
             // Timestamp helpers
+            "fromUnixTime" => Num?unixTime ^-> T<Date>
+            |> WithComment "Create a date from a Unix timestamp"
+            "getTime" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the milliseconds timestamp of the given date"
+            "getUnixTime" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the seconds timestamp of the given date"
             // TODO
             // Millisecond helpers
             // TODO
@@ -544,11 +554,11 @@ module Definition =
 
     let Assembly =
         Assembly [
-            Namespace "WebSharper.DateFNS.Resource" [
-                Resource "DateFNSCDN" "https://unpkg.com/date-fns@2.23.0/index.js"
-                |> AssemblyWide
-            ]
-            Namespace "WebSharper.DateFFNS" [
+            // Namespace "WebSharper.DateFNS.Resource" [
+            //     Resource "DateFNSCDN" "https://cdn.jsdelivr.net/npm/date-fns@2.23.0/index.min.js"
+            //     |> AssemblyWide
+            // ]
+            Namespace "WebSharper.DateFNS" [
                 Interval
                 Localize
                 FormatLong
