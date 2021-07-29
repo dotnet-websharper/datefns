@@ -580,7 +580,24 @@ module Definition =
             "subMinutes" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of minutes from the given date"
             // Hour helpers
-            // TODO
+            "addHours" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of hours to the given date"
+            "differenceInHours" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of hours between the given dates"
+            "endOfHour" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of an hour for the given date. The result will be in the local timezone"
+            "getHours" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the hours of the given date"
+            "isSameHour" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same hour?"
+            "isThisHour" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date in the same hour as the current date?"
+            "setHours" => (T<Date> + Num)?date * Num?hours ^-> T<Date>
+            |> WithComment "Set the hours to the given date"
+            "startOfHour" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of an hour for the given date. The result will be in the local timezone"
+            "subHours" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of hours from the given date"
             // Day helpers
             // TODO
             // Weekday helpers
