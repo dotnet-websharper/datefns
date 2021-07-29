@@ -374,6 +374,15 @@ module Definition =
             ]
         }
 
+    let SetDayOptions =
+        Pattern.Config "SetDayOptions" {
+            Required = []
+            Optional = [
+                "locale", Locale.Type
+                "weekStartsOn", DayFromZero.Type
+            ]
+        }
+
     let DateFNS =
         Class "globalThis['date-fns']"
         |> WithSourceName "DateFNS"
@@ -646,7 +655,46 @@ module Definition =
             "subDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of days from the given date"
             // Weekday helpers
-            // TODO
+            "getDay" => (T<Date> + Num)?date ^-> DayFromZero
+            |> WithComment "Get the day of the week of the given date"
+            "getISODay" => (T<Date> + Num)?date ^-> DayFromZero
+            |> WithComment "Get the day of the ISO week of the given date, which is 7 for Sunday, 1 for Monday etc."
+            "isFriday" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date Friday?"
+            "isMonday" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date Monday?"
+            "isSaturday" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date Saturday?"
+            "isSunday" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date Sunday?"
+            "isThursday" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date Thursday?"
+            "isTuesday" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date Tuesday?"
+            "isWednesday" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date Wednesday?"
+            "isWeekend" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Does the given date fall on a weekend?"
+            "nextDay" => (T<Date> + Num)?date * DayFromZero?day ^-> T<Date>
+            |> WithComment "When is the next day of the week? 0-6 the day of the week, 0 represents Sunday"
+            "nextFriday" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "When is the next Friday?"
+            "nextMonday" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "When is the next Monday?"
+            "nextSaturday" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "When is the next Saturday?"
+            "nextSunday" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "When is the next Sunday?"
+            "nextThursday" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "When is the next Thursday?"
+            "nextTuesday" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "When is the next Tuesday?"
+            "nextWednesday" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "When is the next Wednesday?"
+            "setDay" => (T<Date> + Num)?date * DayFromZero?day * !? SetDayOptions?options ^-> T<Date>
+            |> WithComment "Set the day of the week to the given date"
+            "setISODay" => (T<Date> + Num)?date * DayFromZero?day ^-> T<Date>
+            |> WithComment "Set the day of the ISO week to the given date. ISO week starts with Monday. 7 is the index of Sunday, 1 is the index of Monday etc."
             // Week helpers
             // TODO
             // ISO Week helpers
@@ -710,6 +758,7 @@ module Definition =
                 EachDHMOfIntervalOptions
                 EachWeekOfIntervalOptions
                 RoundToNearestMinuteOptions
+                SetDayOptions
                 DateFNS
             ]
         ]
