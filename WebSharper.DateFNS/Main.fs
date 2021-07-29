@@ -599,7 +599,52 @@ module Definition =
             "subHours" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of hours from the given date"
             // Day helpers
-            // TODO
+            "addBusinessDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of business days (mon - fri) to the given date, ignoring weekends"
+            "addDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of days to the given date"
+            "differenceInBusinessDays" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of business day periods between the given dates. Business days being days that arent in the weekend. Like `differenceInCalendarDays`, the function removes the times from the dates before calculating the difference"
+            "differenceInCalendarDays" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of calendar days between the given dates. This means that the times are removed from the dates and then the difference in days is calculated"
+            "differenceInDays" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of full day periods between two dates. Fractional days are truncated towards zero"
+            "endOfDay" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of a day for the given date. The result will be in the local timezone"
+            "endOfToday" => T<unit> ^-> T<Date>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "endOfTomorrow" => T<unit> ^-> T<Date>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "endOfYesterday" => T<unit> ^-> T<Date>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "getDate" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the day of the month of the given date"
+            "getDayOfYear" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the day of the year of the given date"
+            "isSameDay" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same day?"
+            "isToday" => (T<Date> + Num)?date ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "isTomorrow" => (T<Date> + Num)?date ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "isYesterday" => (T<Date> + Num)?date ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "setDate" => (T<Date> + Num)?date * Num?dayOfMonth ^-> T<Date>
+            |> WithComment "Set the day of the month to the given date"
+            "setDayOfYear" => (T<Date> + Num)?date * Num?dayOfYear ^-> T<Date>
+            |> WithComment "Set the day of the year to the given date"
+            "startOfDay" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of a day for the given date. The result will be in the local timezone"
+            "startOfToday" => T<unit> ^-> T<Date>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "startOfTomorrow" => T<unit> ^-> T<Date>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "startOfYesterday" => T<unit> ^-> T<Date>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "subBusinessDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Substract the specified number of business days (mon - fri) to the given date, ignoring weekends"
+            "subDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of days from the given date"
             // Weekday helpers
             // TODO
             // Week helpers
