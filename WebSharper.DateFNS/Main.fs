@@ -821,7 +821,34 @@ module Definition =
             "subQuarters" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of year quarters from the given date"
             // Year helpers
-            // TODO
+            "addYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of years to the given date"
+            "differenceInCalendarYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of calendar years between the given dates"
+            "differenceInYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of full years between the given dates"
+            "eachWeekendOfYear" => (T<Date> + Num)?date ^-> !| T<Date>
+            |> WithComment "Get all the Saturdays and Sundays in the year"
+            "endOfYear" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of a year for the given date. The result will be in the local timezone"
+            "getDaysInYear" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the number of days in a year of the given date"
+            "getYear" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the year of the given date"
+            "isLeapYear" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date in the leap year?"
+            "isSameYear" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same year?"
+            "isThisYear" => (T<Date> + Num)?date ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "lastDayOfYear" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the last day of a year for the given date. The result will be in the local timezone"
+            "setYear" => (T<Date> + Num)?date * Num?year ^-> T<Date>
+            |> WithComment "Set the year to the given date"
+            "startOfYear" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of a year for the given date. The result will be in the local timezone"
+            "subYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of years from the given date"
             // ISO Week-Numbering Year helpers
             // TODO
             // Decade helpers
