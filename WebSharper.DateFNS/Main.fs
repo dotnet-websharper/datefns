@@ -742,7 +742,22 @@ module Definition =
             "subWeeks" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of weeks from the given date"
             // ISO Week helpers
-            // TODO
+            "differenceInCalendarISOWeeks" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of calendar ISO weeks between the given dates"
+            "endOfISOWeek" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of an ISO week for the given date. The result will be in the local timezone"
+            "getISOWeek" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the ISO week of the given date"
+            "isSameISOWeek" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same ISO week?"
+            "isThisISOWeek" => (T<Date> + Num)?date ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "lastDayOfISOWeek" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Return the last day of an ISO week for the given date. The result will be in the local timezone"
+            "setISOWeek" => (T<Date> + Num)?date * Num?isoWeek ^-> T<Date>
+            |> WithComment "Set the ISO week to the given date, saving the weekday number"
+            "startOfISOWeek" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of an ISO week for the given date. The result will be in the local timezone"
             // Month helpers
             // TODO
             // Quarter helpers
