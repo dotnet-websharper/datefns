@@ -383,6 +383,25 @@ module Definition =
             ]
         }
 
+    let WeekHelperOptions1 =
+        Pattern.Config "WeekHelperOptions1" {
+            Required = []
+            Optional = [
+                "locale", Locale.Type
+                "weekStartsOn", DayFromZero.Type
+            ]
+        }
+
+    let WeekHelperOptions2 =
+        Pattern.Config "WeekHelperOptions2" {
+            Required = []
+            Optional = [
+                "locale", Locale.Type
+                "weekStartsOn", DayFromZero.Type
+                "firstWeekContainsDate", DayFromOne.Type
+            ]
+        }
+
     let DateFNS =
         Class "globalThis['date-fns']"
         |> WithSourceName "DateFNS"
@@ -696,7 +715,32 @@ module Definition =
             "setISODay" => (T<Date> + Num)?date * DayFromZero?day ^-> T<Date>
             |> WithComment "Set the day of the ISO week to the given date. ISO week starts with Monday. 7 is the index of Sunday, 1 is the index of Monday etc."
             // Week helpers
-            // TODO
+            "addWeeks" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of week to the given date"
+            "differenceInCalendarWeeks" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight * !? WeekHelperOptions1?options ^-> Num
+            |> WithComment "Get the number of calendar weeks between the given dates"
+            "differenceInWeeks" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of full weeks between two dates. Fractional weeks are truncated towards zero"
+            "endOfWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<Date> 
+            |> WithComment "Return the end of a week for the given date. The result will be in the local timezone"
+            "getWeek" => (T<Date> + Num)?date * !? WeekHelperOptions2?options ^-> Num
+            |> WithComment "Get the local week index of the given date. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
+            "getWeekOfMonth" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> Num
+            |> WithComment "Get the week of the month of the given date"
+            "getWeeksInMonth" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> Num
+            |> WithComment "Get the number of calendar weeks the month in the given date spans"
+            "isSameWeek" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight * !? WeekHelperOptions1?options ^-> T<bool>
+            |> WithComment "Are the given dates in the same week?"
+            "isThisWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<bool>
+            |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
+            "lastDayOfWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<bool>
+            |> WithComment "Return the last day of a week for the given date. The result will be in the local timezone"
+            "setWeek" => (T<Date> + Num)?date * Num?week * !? WeekHelperOptions2?options ^-> T<Date>
+            |> WithComment "Set the local week to the given date, saving the weekday number. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
+            "startOfWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<Date>
+            |> WithComment "Return the start of a week for the given date. The result will be in the local timezone"
+            "subWeeks" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of weeks from the given date"
             // ISO Week helpers
             // TODO
             // Month helpers
@@ -759,6 +803,8 @@ module Definition =
                 EachWeekOfIntervalOptions
                 RoundToNearestMinuteOptions
                 SetDayOptions
+                WeekHelperOptions1
+                WeekHelperOptions2
                 DateFNS
             ]
         ]
