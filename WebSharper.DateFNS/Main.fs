@@ -850,7 +850,28 @@ module Definition =
             "subYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of years from the given date"
             // ISO Week-Numbering Year helpers
-            // TODO
+            "addISOWeekYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of ISO week-numbering years to the given date"
+            "differenceInCalendarISOWeekYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of calendar ISO week-numbering years between the given dates"
+            "differenceInISOWeekYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of full ISO week-numbering years between the given dates"
+            "endOfISOWeekYear" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of an ISO week-numbering year, which always starts 3 days before the year's first Thursday. The result will be in the local timezone"
+            "getISOWeekYear" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the ISO week-numbering year of the given date, which always starts 3 days before the year's first Thursday"
+            "getISOWeeksInYear" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the number of weeks in an ISO week-numbering year of the given date"
+            "isSameISOWeekYear" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same ISO week-numbering year?"
+            "lastDayOfISOWeekYear" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the last day of an ISO week-numbering year, which always starts 3 days before the year's first Thursday. The result will be in the local timezone"
+            "setISOWeekYear" => (T<Date> + Num)?date * Num?isoWeekYear ^-> T<Date>
+            |> WithComment "Set the ISO week-numbering year to the given date, saving the week number and the weekday number"
+            "startOfISOWeekYear" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of an ISO week-numbering year, which always starts 3 days before the year's first Thursday. The result will be in the local timezone"
+            "subISOWeekYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of ISO week-numbering years from the given date"
             // Decade helpers
             // TODO
             // Week-Numbering Year helpers
