@@ -418,6 +418,16 @@ module Definition =
             ]
         }
 
+    let WeekNumYearHelperOptions =
+        Pattern.Config "WeekNumYearHelperOptions" {
+            Required = []
+            Optional = [
+                "locale", Locale.Type
+                "weekStartsOn", DayFromZero.Type
+                "firstWeekContainsDate", DayFromOne.Type
+            ]
+        }
+
     let DateFNS =
         Class "globalThis['date-fns']"
         |> WithSourceName "DateFNS"
@@ -890,7 +900,12 @@ module Definition =
             "startOfDecade" => (T<Date> + Num)?date ^-> T<Date>
             |> WithComment "Return the start of a decade for the given date"
             // Week-Numbering Year helpers
-            // TODO
+            "getWeekYear" => (T<Date> + Num)?date * !? WeekNumYearHelperOptions?options ^-> Num
+            |> WithComment "Get the local week-numbering year of the given date. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
+            "setWeekYear" => (T<Date> + Num)?date * Num?weekYear * !? WeekNumYearHelperOptions?options ^-> T<Date>
+            |> WithComment "Set the local week-numbering year to the given date, saving the week number and the weekday number. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
+            "startOfWeekYear" => (T<Date> + Num)?date * !? WeekNumYearHelperOptions?options ^-> T<Date>
+            |> WithComment "Return the start of a local week-numbering year. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
         ]
 
     let Assembly =
@@ -943,6 +958,7 @@ module Definition =
                 WeekHelperOptions2
                 LastDayOfQuarterOptions
                 EndOfDecadeOptions
+                WeekNumYearHelperOptions
                 DateFNS
             ]
         ]
