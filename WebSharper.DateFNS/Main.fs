@@ -366,8 +366,13 @@ module Definition =
             ]
         }
 
-    // let inliner (x: CodeModel.MethodBase) =
-    //     WithInline ("globalThis['date-fns']" + x.Name) x
+    let RoundToNearestMinuteOptions =
+        Pattern.Config "RoundToNearestMinuteOptions" {
+            Required = []
+            Optional = [
+                "nearestTo", Num
+            ]
+        }
 
     let DateFNS =
         Class "globalThis['date-fns']"
@@ -554,7 +559,26 @@ module Definition =
             "subSeconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of seconds from the given date"
             // Minute helpers
-            // TODO
+            "addMinutes" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of minutes to the given date"
+            "differenceInMinutes" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the signed number of full (rounded towards 0) minutes between the given dates"
+            "endOfMinute" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of a minute for the given date. The result will be in the local timezone"
+            "getMinutes" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the minutes of the given date"
+            "isSameMinute" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same minute?"
+            "isThisMinute" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date in the same minute as the current date?"
+            "roundToNearestMinutes" => (T<Date> + Num)?date * !? RoundToNearestMinuteOptions?options ^-> T<Date>
+            |> WithComment "Rounds the given date to the nearest minute (or number of minutes). Rounds up when the given date is exactly between the nearest round minutes"
+            "setMinutes" => (T<Date> + Num)?date * Num?minutes ^-> T<Date>
+            |> WithComment "Set the minutes to the given date"
+            "startOfMinute" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of a minute for the given date. The result will be in the local timezone"
+            "subMinutes" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of minutes from the given date"
             // Hour helpers
             // TODO
             // Day helpers
@@ -623,6 +647,7 @@ module Definition =
                 AreIntervalsOverlappingOptions
                 EachDHMOfIntervalOptions
                 EachWeekOfIntervalOptions
+                RoundToNearestMinuteOptions
                 DateFNS
             ]
         ]
