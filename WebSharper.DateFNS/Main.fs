@@ -522,21 +522,37 @@ module Definition =
             "getUnixTime" => (T<Date> + Num)?date ^-> Num
             |> WithComment "Get the seconds timestamp of the given date"
             // Millisecond helpers
-            "addMilliseconds" => (T<Date> + Num)?date * Num?amount ^->  T<Date>
+            "addMilliseconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Add the specified number of milliseconds to the given date"
             "differenceInMilliseconds" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
             |> WithComment "Get the number of milliseconds between the given dates"
-            "getMilliseconds" => (T<Date> + Num)?date ^->  T<Date> 
+            "getMilliseconds" => (T<Date> + Num)?date ^-> T<Date> 
             |> WithComment "Get the milliseconds of the given date"
             "milliseconds" => Duration?duration ^-> Num
             |> WithComment "Returns the number of milliseconds in the specified, years, months, weeks, days, hours, minutes and seconds"
-            "setMilliseconds" => (T<Date> + Num)?date * Num?milliseconds ^->  T<Date>
+            "setMilliseconds" => (T<Date> + Num)?date * Num?milliseconds ^-> T<Date>
             |> WithComment "Set the milliseconds to the given date"
-            "subMilliseconds" => (T<Date> + Num)?date * Num?amount ^->  T<Date>
+            "subMilliseconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of milliseconds from the given date"
-            // TODO
             // Second helpers
-            // TODO
+            "addSeconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Add the specified number of seconds to the given date"
+            "differenceInSeconds" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of seconds between the given dates"
+            "endOfSecond" => (T<Date> + Num)?date ^-> T<Date> 
+            |> WithComment "Return the end of a second for the given date. The result will be in the local timezone"
+            "getSeconds" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the seconds of the given date"
+            "isSameSecond" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates in the same second?"
+            "isThisSecond" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date in the same second as the current date?"
+            "setSeconds" => (T<Date> + Num)?date * Num?seconds ^-> T<Date>
+            |> WithComment "Set the seconds to the given date"
+            "startOfSecond" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of a second for the given date. The result will be in the local timezone"
+            "subSeconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            |> WithComment "Subtract the specified number of seconds from the given date"
             // Minute helpers
             // TODO
             // Hour helpers
