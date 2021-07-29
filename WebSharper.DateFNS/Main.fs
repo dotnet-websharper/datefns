@@ -911,7 +911,7 @@ module Definition =
     let Assembly =
         Assembly [
             Namespace "WebSharper.DateFNS.Resource" [
-                Resource "DateFNSCDN" "datefns-min.js"
+                Resource "DateFNS" "datefns-min.js"
                 |> AssemblyWide
             ]
             Namespace "WebSharper.DateFNS" [
