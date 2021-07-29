@@ -31,7 +31,7 @@ module Definition =
         }
 
     let FormatLong =
-        Pattern.Config "Localize" {
+        Pattern.Config "FormatLong" {
             Required = []
             Optional = [
                 "date", T<JavaScript.Function>
@@ -41,7 +41,7 @@ module Definition =
         }
 
     let Match =
-        Pattern.Config "Localize" {
+        Pattern.Config "Match" {
             Required = []
             Optional = [
                 "ordinalNumber", T<JavaScript.Function>
@@ -295,7 +295,7 @@ module Definition =
                 "locale", Locale.Type
                 "weekStartsOn", DayFromZero.Type
                 "firstWeekContainsDate", DayFromOne.Type
-                "firstWeekContainsDate", T<bool>
+                "useAdditionalWeekYearTokens", T<bool>
                 "useAdditionalDayOfYearTokens", T<bool>
             ]
         }
@@ -346,44 +346,120 @@ module Definition =
         |+> Static [
             // Common helpers
             "add" => (T<Date> + Num)?date * Duration?duration ^-> T<Date>
+            |> WithComment "Add the specified years, months, weeks, days, hours, minutes and seconds to the given date"
             "closestIndexTo" => (T<Date> + Num)?dateToCompare * (!| T<Date> + !| Num)?datesArray ^-> Num
+            |> WithComment "Return an index of the closest date from the array comparing to the given date"
             "closestTo" => (T<Date> + Num)?dateToCompare * (!| T<Date> + !| Num)?datesArray ^-> T<Date>
+            |> WithComment "Return a date from the array closest to the given date"
             "compareAsc" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Compare the two dates and return 1 if the first date is after the second, -1 if the first date is before the second or 0 if dates are equal"
             "comparedesc" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Compare the two dates and return -1 if the first date is after the second, 1 if the first date is before the second or 0 if dates are equal"
             "format" => (T<Date> + Num)?date * T<string>?format * !? FormatOptions?options ^-> T<string>
+            |> WithComment "Return the formatted date string in the given format. The result may vary by locale"
             "formatDistance" => (T<Date> + Num)?date * (T<Date> + Num)?baseDate * !? FormatDistanceOptions?options ^-> T<string>
+            |> WithComment "Return the distance between the given dates in words"
             "formatDistanceStrict" => (T<Date> + Num)?date * (T<Date> + Num)?baseDate * !? FormatDistanceStrictOptions?options ^-> T<string>
+            |> WithComment "Return the distance between the given dates in words, using strict units. This is like `formatDistance`, but does not use helpers like 'almost', 'over', 'less than' and the like"
             "formatDistanceToNow" => (T<Date> + Num)?date * FormatDistanceOptions?options ^-> T<string>
+            |> WithComment "Return the distance between the given date and now in words"
             "formatDistanceToNowStrict" => (T<Date> + Num)?date * !? FormatDistanceStrictOptions?options ^-> T<string>
+            |> WithComment "Return the distance between the given dates in words, using strict units. This is like `formatDistance`, but does not use helpers like 'almost', 'over', 'less than' and the like"
             "formatDuration" => Duration?duration * !? FormatDurationOptions?options ^-> T<string>
+            |> WithComment "Return human-readable duration string i.e. `9 months 2 days`"
             "formatISO" => (T<Date> + Num)?date * !? FormatISOOptions?options ^-> T<string>
+            |> WithComment "Return the formatted date string in ISO 8601 format. Options may be passed to control the parts and notations of the date"
             "formatISO9075" => (T<Date> + Num)?date * !? FormatISOOptions?options ^-> T<string>
+            |> WithComment "Return the formatted date string in ISO 9075 format. Options may be passed to control the parts and notations of the date"
             "formatISODuration" => Duration?duration ^-> T<string>
+            |> WithComment "Format a duration object according to the ISO 8601 duration standard"
             "formatRFC3339" => (T<Date> + Num)?date * !? FormatRFC3339Options?options ^-> T<string>
+            |> WithComment "Return the formatted date string in RFC 3339 format. Options may be passed to control the parts and notations of the date"
             "formatRFC7231" => (T<Date> + Num)?date ^-> T<string>
+            |> WithComment "Return the formatted date string in RFC 7231 format. The result will always be in UTC timezone"
             "formatRelative" => (T<Date> + Num)?date * (T<Date> + Num)?baseDate * !? FormatRelativeOptions?options ^-> T<string>
+            |> WithComment "Represent the date in words relative to the given base date"
             "intervalToDuration" => Interval?interval ^-> Duration
+            |> WithComment "Convert a interval object to a duration object"
             "intlFormat" => (T<Date> + Num)?argument * !? IntlFormatOptions?formatOptions * !? IntlLocaleOptions?localeOptions ^-> T<string>
+            |> WithComment "Return the formatted date string in the given format. The method uses `Intl.DateTimeFormat` inside. `formatOptions` are the same as `Intl.DateTimeFormat` options"
             "isAfter" => (T<Date> + Num)?date * (T<Date> + Num)?dateToCompare ^-> T<bool>
+            |> WithComment "Is the first date after the second one?"
             "isBefore" => (T<Date> + Num)?date * (T<Date> + Num)?dateToCompare ^-> T<bool>
+            |> WithComment "Is the first date before the second one?"
             "isDate" => T<obj>?value ^-> T<bool>
+            |> WithComment "Returns true if the given value is an instance of Date. The function works for dates transferred across iframes"
             "isEqual" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            |> WithComment "Are the given dates equal?"
             "isExists" => Num?year * Num?month * Num?day ^-> T<bool>
+            |> WithComment "Checks if the given arguments convert to an existing date"
             "isFuture" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date in the future?"
             "isMatch" => T<string>?dateString * T<string>?formatString * !? IsMatchOptions?options ^-> T<bool>
+            |> WithComment "Return the true if given date is string correct against the given format else will return false"
             "isPast" => (T<Date> + Num)?date ^-> T<bool>
+            |> WithComment "Is the given date in the past?"
             "isValid" => T<obj>?date ^-> T<bool>
+            |> WithComment "Returns false if argument is Invalid Date and true otherwise. Argument is converted to Date using `toDate`. See toDate Invalid Date is a Date, whose time value is NaN"
             "lightFormat" => (T<Date> + Num)?date * T<string>?format ^-> T<string>
+            |> WithComment "Return the formatted date string in the given format. Unlike `format`, `lightFormat` doesn't use locales and outputs date using the most popular tokens"
             "max" => (!| T<Date> + !| Num)?datesArray ^-> T<Date>
+            |> WithComment "Return the latest of the given dates"
             "min" => (!| T<Date> + !| Num)?datesArray ^-> T<Date>
+            |> WithComment "Returns the earliest of the given dates"
             "parse" => T<string>?dateString * T<string>?formatString * (T<Date> + Num)?referenceDate * !? ParseOptions ^-> T<Date>
+            |> WithComment "Return the date parsed from string using the given format string"
             "parseISO" => T<string>?argument * !? ParseISOOptions?options ^-> T<Date>
+            |> WithComment "Parse the given string in ISO 8601 format and return an instance of Date"
             "parseJSON" => (T<string> + Num + T<Date>)?argument ^-> T<Date>
+            |> WithComment "Converts a complete ISO date string in UTC time, the typical format for transmitting a date in JSON, to a JavaScript `Date` instance"
             "set" => (T<Date> + Num)?date * SetValues?values ^-> T<Date>
+            |> WithComment "Set date values to a given date"
             "sub" => (T<Date> + Num)?date * Duration?duration ^-> T<Date>
+            |> WithComment "Subtract the specified years, months, weeks, days, hours, minutes and seconds from the given date"
             "toDate" => (T<Date> + Num)?argument ^-> T<Date>
+            |> WithComment "Convert the given argument to an instance of Date"
             // Conversion helpers
-            // TODO
+            "daysToWeeks" => Num?days ^-> Num
+            |> WithComment "Convert a number of days to a full number of weeks"
+            "hoursToMilliseconds" => Num?hours ^-> Num
+            |> WithComment "Convert a number of hours to a full number of milliseconds"
+            "hoursToMinutes" => Num?hours ^-> Num
+            |> WithComment "Convert a number of hours to a full number of minutes"
+            "hoursToSeconds" => Num?hours ^-> Num
+            |> WithComment "Convert a number of hours to a full number of seconds"
+            "millisecondsToHours" => Num?milliseconds ^-> Num
+            |> WithComment "Convert a number of milliseconds to a full number of hours"
+            "millisecondsToMinutes" => Num?milliseconds ^-> Num
+            |> WithComment "Convert a number of milliseconds to a full number of minutes"
+            "millisecondsToSeconds" => Num?milliseconds ^-> Num
+            |> WithComment "Convert a number of milliseconds to a full number of seconds"
+            "minutesToHours" => Num?minutes ^-> Num
+            |> WithComment "Convert a number of minutes to a full number of hours"
+            "minutesToMilliseconds" => Num?minutes ^-> Num
+            |> WithComment "Convert a number of minutes to a full number of milliseconds"
+            "minutesToSeconds" => Num?minutes ^-> Num
+            |> WithComment "Convert a number of minutes to a full number of seconds"
+            "monthsToQuarters" => Num?months ^-> Num
+            |> WithComment "Convert a number of months to a full number of quarters"
+            "monthsToYears" => Num?months ^-> Num
+            |> WithComment "Convert a number of months to a full number of years"
+            "quartersToMonths" => Num?quarters ^-> Num
+            |> WithComment "Convert a number of quarters to a full number of months"
+            "quartersToYears" => Num?quarters ^-> Num
+            |> WithComment "Convert a number of quarters to a full number of years"
+            "secondsToHours" => Num?seconds ^-> Num
+            |> WithComment "Convert a number of seconds to a full number of hours"
+            "secondsToMilliseconds" => Num?seconds ^-> Num
+            |> WithComment "Convert a number of seconds to a full number of milliseconds"
+            "secondsToMinutes" => Num?seconds ^-> Num
+            |> WithComment "Convert a number of seconds to a full number of minutes"
+            "weeksToDays" => Num?weeks ^-> Num
+            |> WithComment "Convert a number of weeks to a full number of days"
+            "yearsToMonths" => Num?years ^-> Num
+            |> WithComment "Convert a number of years to a full number of months"
+            "yearsToQuarters" => Num?years ^-> Num
+            |> WithComment "Convert a number of years to a full number of quarters"
             // Interval helpers
             // TODO
             // Timestamp helpers
@@ -425,6 +501,40 @@ module Definition =
                 |> AssemblyWide
             ]
             Namespace "WebSharper.DateFFNS" [
+                Interval
+                Localize
+                FormatLong
+                Match
+                DayFromZero
+                DayFromOne
+                Options
+                Locale
+                Duration
+                FormatOptions
+                FormatDistanceOptions
+                Unit
+                RoundingMethod
+                FormatDistanceStrictOptions
+                FormatDurationOptions
+                Format
+                Representation
+                FormatISOOptions
+                FractionDigits
+                FormatRFC3339Options
+                FormatRelativeOptions
+                LocaleMatcher
+                IntlFormatRepresentation1
+                IntlFormatRepresentation2
+                IntlFormatRepresentation3
+                IntlFormatRepresentation4
+                FormatMatcher
+                IntlFormatOptions
+                IntlLocaleOptions
+                IsMatchOptions
+                ParseOptions
+                AdditionalDigits
+                ParseISOOptions
+                SetValues
                 DateFNS
             ]
         ]
