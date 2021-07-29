@@ -410,6 +410,14 @@ module Definition =
             ]
         }
 
+    let EndOfDecadeOptions =
+        Pattern.Config "EndOfDecadeOptions" {
+            Required = []
+            Optional = [
+                "additionalDigits", AdditionalDigits.Type
+            ]
+        }
+
     let DateFNS =
         Class "globalThis['date-fns']"
         |> WithSourceName "DateFNS"
@@ -873,7 +881,14 @@ module Definition =
             "subISOWeekYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of ISO week-numbering years from the given date"
             // Decade helpers
-            // TODO
+            "endOfDecade" => (T<Date> + Num)?date * !? EndOfDecadeOptions?options ^-> T<Date>
+            |> WithComment "Return the end of a decade for the given date"
+            "getDecade" => (T<Date> + Num)?date ^-> Num
+            |> WithComment "Get the decade of the given date"
+            "lastDayOfDecade" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the last day of a decade for the given date"
+            "startOfDecade" => (T<Date> + Num)?date ^-> T<Date>
+            |> WithComment "Return the start of a decade for the given date"
             // Week-Numbering Year helpers
             // TODO
         ]
@@ -927,6 +942,7 @@ module Definition =
                 WeekHelperOptions1
                 WeekHelperOptions2
                 LastDayOfQuarterOptions
+                EndOfDecadeOptions
                 DateFNS
             ]
         ]
