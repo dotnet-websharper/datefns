@@ -521,8 +521,19 @@ module Definition =
             |> WithComment "Get the milliseconds timestamp of the given date"
             "getUnixTime" => (T<Date> + Num)?date ^-> Num
             |> WithComment "Get the seconds timestamp of the given date"
-            // TODO
             // Millisecond helpers
+            "addMilliseconds" => (T<Date> + Num)?date * Num?amount ^->  T<Date>
+            |> WithComment "Add the specified number of milliseconds to the given date"
+            "differenceInMilliseconds" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            |> WithComment "Get the number of milliseconds between the given dates"
+            "getMilliseconds" => (T<Date> + Num)?date ^->  T<Date> 
+            |> WithComment "Get the milliseconds of the given date"
+            "milliseconds" => Duration?duration ^-> Num
+            |> WithComment "Returns the number of milliseconds in the specified, years, months, weeks, days, hours, minutes and seconds"
+            "setMilliseconds" => (T<Date> + Num)?date * Num?milliseconds ^->  T<Date>
+            |> WithComment "Set the milliseconds to the given date"
+            "subMilliseconds" => (T<Date> + Num)?date * Num?amount ^->  T<Date>
+            |> WithComment "Subtract the specified number of milliseconds from the given date"
             // TODO
             // Second helpers
             // TODO
