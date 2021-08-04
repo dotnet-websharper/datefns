@@ -21,12 +21,12 @@ module Definition =
         Pattern.Config "Localize" {
             Required = []
             Optional = [
-                "ordinalNumber", T<JavaScript.Function>
-                "era", T<JavaScript.Function>
-                "quarter", T<JavaScript.Function>
-                "month", T<JavaScript.Function>
-                "day", T<JavaScript.Function>
-                "dayPeriod", T<JavaScript.Function>
+                "ordinalNumber", T<int> ^-> T<string>
+                "era", T<int> ^-> T<string>
+                "quarter", T<int> ^-> T<string>
+                "month", T<int> ^-> T<string>
+                "day", T<int> ^-> T<string>
+                "dayPeriod", T<string> ^-> T<string>
             ]
         }
 
@@ -34,9 +34,9 @@ module Definition =
         Pattern.Config "FormatLong" {
             Required = []
             Optional = [
-                "date", T<JavaScript.Function>
-                "time", T<JavaScript.Function>
-                "dateTime", T<JavaScript.Function>
+                "date", T<unit> ^-> T<string>
+                "time", T<unit> ^-> T<string>
+                "dateTime", T<unit> ^-> T<string>
             ]
         }
 
@@ -44,12 +44,12 @@ module Definition =
         Pattern.Config "Match" {
             Required = []
             Optional = [
-                "ordinalNumber", T<JavaScript.Function>
-                "era", T<JavaScript.Function>
-                "quarter", T<JavaScript.Function>
-                "month", T<JavaScript.Function>
-                "day", T<JavaScript.Function>
-                "dayPeriod", T<JavaScript.Function>
+                "ordinalNumber", T<string> ^-> T<string>
+                "era", T<string> ^-> T<string>
+                "quarter", T<string> ^-> T<string>
+                "month", T<string> ^-> T<string>
+                "day", T<string> ^-> T<string>
+                "dayPeriod", T<string> ^-> T<string>
             ]
         }
 
@@ -89,8 +89,8 @@ module Definition =
             Required = []
             Optional = [
                 "code", T<string>
-                "formatDistance", T<JavaScript.Function>
-                "formatRelative", T<JavaScript.Function>
+                "formatDistance", T<string> * T<string> ^-> T<string>
+                "formatRelative", T<string> * T<string> * T<string> ^-> T<string>
                 "localize", Localize.Type
                 "formatLong", FormatLong.Type
                 "match", Match.Type
