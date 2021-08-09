@@ -6,6 +6,114 @@ open WebSharper.InterfaceGenerator
 
 module Definition =
 
+    let Locales =
+        Class "Locales"
+
+    let mutable Resources : CodeModel.NamespaceEntity list = []
+
+    let LocaleSetup (s: string) = 
+        let r =
+            Resource (s.ToUpperInvariant() + "_LOCALE") (sprintf "locale_%s.min.js" s)
+        
+        Resources <- List.append Resources [r]
+
+        let l = s.Replace("-", "")
+
+        (s.ToUpperInvariant()) =? TSelf
+        |> Requires [r]
+        |> WithGetterInline (sprintf "locale_%s" l)
+
+    let localeStrings =
+        [
+            "af"
+            "ar"
+            "ar-DZ"
+            "ar-MA"
+            "ar-SA"
+            "az"
+            "be"
+            "bg"
+            "bn"
+            "bs"
+            "ca"
+            "cs"
+            "cy"
+            "da"
+            "de"
+            "de-AT"
+            "el"
+            "en-AU"
+            "en-CA"
+            "en-GB"
+            "en-IN"
+            "en-NZ"
+            "en-US"
+            "en-ZA"
+            "eo"
+            "es"
+            "et"
+            "eu"
+            "fa-IR"
+            "fi"
+            "fil"
+            "fr"
+            "fr-CA"
+            "fr-CH"
+            "gd"
+            "gl"
+            "gu"
+            "he"
+            "hi"
+            "hr"
+            "ht"
+            "hu"
+            "hy"
+            "id"
+            "is"
+            "it"
+            "ja"
+            "ka"
+            "kk"
+            "kn"
+            "ko"
+            "lb"
+            "lt"
+            "lv"
+            "mk"
+            "mn"
+            "ms"
+            "mt"
+            "nb"
+            "nl"
+            "nl-BE"
+            "nn"
+            "pl"
+            "pt"
+            "pt-BR"
+            "ro"
+            "ru"
+            "sk"
+            "sl"
+            "sq"
+            "sr"
+            "sr-Latn"
+            "sv"
+            "ta"
+            "te"
+            "th"
+            "tr"
+            "ug"
+            "uk"
+            "uz"
+            "vi"
+            "zh-CN"
+            "zh-TW"
+        ]
+
+    Locales
+    |+> Static (localeStrings |> List.map (fun x -> LocaleSetup x :> CodeModel.IClassMember))
+    |> ignore
+
     let Num = T<int> + T<float>
 
     let Interval =
@@ -88,7 +196,7 @@ module Definition =
         Pattern.Config "Locale" {
             Required = []
             Optional = [
-                "code", T<string>
+                "code", Locales.Type
                 "formatDistance", T<string> * T<string> ^-> T<string>
                 "formatRelative", T<string> * T<string> * T<string> ^-> T<string>
                 "localize", Localize.Type
@@ -116,7 +224,7 @@ module Definition =
         Pattern.Config "FormatOptions" {
             Required = []
             Optional = [
-                "locale", Locale.Type
+                "locale", T<obj>
                 "weekStartsOn", DayFromZero.Type
                 "firstWeekContainsDate", Num
                 "useAdditionalWeekYearTokens", T<bool>
@@ -429,7 +537,7 @@ module Definition =
         }
 
     let DateFNS =
-        Class "globalThis['date-fns']"
+        Class "datefns"
         |> WithSourceName "DateFNS"
         |+> Static [
             // Common helpers
@@ -911,10 +1019,14 @@ module Definition =
     let Assembly =
         Assembly [
             Namespace "WebSharper.DateFNS.Resource" [
-                Resource "DateFNS" "datefns-min.js"
-                |> AssemblyWide
+                yield
+                    Resource "DateFNSJS" "output.js"
+                    |> AssemblyWide
+                yield!
+                    Resources
             ]
             Namespace "WebSharper.DateFNS" [
+                Locales
                 Interval
                 Localize
                 FormatLong
