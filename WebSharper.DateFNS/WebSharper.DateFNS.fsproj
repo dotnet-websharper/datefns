@@ -7,11 +7,13 @@
   <ItemGroup>
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
+    <EmbeddedResource Include="output.js" />
+    <EmbeddedResource Include="locales/*.min.js" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WebSharper" Version="4.7.3.446" />    
-    <PackageReference Include="WebSharper.FSharp" Version="4.7.3.446" />
+    <PackageReference Include="WebSharper" Version="5.0.0.63-preview1" />    
+    <PackageReference Include="WebSharper.FSharp" Version="5.0.0.63-preview1" />
   </ItemGroup>
 
 </Project>

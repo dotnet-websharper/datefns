@@ -17,12 +17,33 @@ module Client =
     [<SPAEntryPoint>]
     let Main () =
         let newName = Var.Create ""
-
+        let date = DateFNS.Format(Date(2014, 1, 11), "MM/dd/yyyy")
+        let nextD = DateFNS.NextDay(Date(), DayFromZero.``0``).ToString()
+        let nextM = DateFNS.NextMonday(Date()).ToString()
+        let formatOpt = FormatOptions()
+        formatOpt.Locale <- Locales.JA
+        let localeDate = DateFNS.Format(Date(), "MMM dd yyyy", formatOpt)
+        let defaultDate = DateFNS.Format(Date(), "MMM dd yyyy")
         IndexTemplate.Main()
             .FormatDate(
                 Doc.Concat [
                     h2 [] [text "Date formating"]
-                    p [] [text (DateFNS.Format(Date(2014, 1, 11), "MM/dd/yyyy"))]
+                    p [] [text date]
+                ]
+            )
+            .NextDay(
+                Doc.Concat [
+                    h2 [] [text "Next Day (Sunday) test"]
+                    p [] [text nextD]
+                    h2 [] [text "Next Monday test"]
+                    p [] [text nextM]
+                ]
+            )
+            .LocaleTest(
+                Doc.Concat [
+                    h2 [] [text "Locale Test"]
+                    p [] [text ("With default locale: " + defaultDate)]
+                    p [] [text ("With Japanese locale: "+ localeDate)]
                 ]
             )
             .Doc()
