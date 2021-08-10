@@ -18,7 +18,7 @@ module Client =
     let Main () =
         let newName = Var.Create ""
         let date = DateFNS.Format(Date(2014, 1, 11), "MM/dd/yyyy")
-        let nextD = DateFNS.NextDay(Date(), DayFromZero.``0``).ToString()
+        let nextD = DateFNS.NextDay(Date(), 0).ToString()
         let nextM = DateFNS.NextMonday(Date()).ToString()
         let formatOpt = FormatOptions()
         formatOpt.Locale <- Locales.JA
