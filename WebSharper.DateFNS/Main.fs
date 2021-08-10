@@ -114,13 +114,11 @@ module Definition =
     |+> Static (localeStrings |> List.map (fun x -> LocaleSetup x :> CodeModel.IClassMember))
     |> ignore
 
-    let Num = T<int> + T<float>
-
     let Interval =
         Pattern.Config "Interval" {
             Required = [
-                "start", T<Date> + Num
-                "end", T<Date> + Num
+                "start", T<Date> + T<int>
+                "end", T<Date> + T<int>
             ]
             Optional = []
         }
@@ -161,34 +159,12 @@ module Definition =
             ]
         }
 
-    let DayFromZero =
-        Pattern.EnumInlines "DayFromZero" [
-            "0", "0"
-            "1", "1"
-            "2", "2"
-            "3", "3"
-            "4", "4"
-            "5", "5"
-            "6", "6"
-        ]
-
-    let DayFromOne =
-        Pattern.EnumInlines "DayFromOne" [
-            "1", "1"
-            "2", "2"
-            "3", "3"
-            "4", "4"
-            "5", "5"
-            "6", "6"
-            "7", "7"
-        ]
-
     let Options =
         Pattern.Config "Options" {
             Required = []
             Optional = [
-                "weekStartsOn", DayFromZero.Type
-                "firstWeekContainsDate", DayFromOne.Type
+                "weekStartsOn", T<int>
+                "firstWeekContainsDate", T<int>
             ]
         }
 
@@ -210,13 +186,13 @@ module Definition =
         Pattern.Config "Duration" {
             Required = []
             Optional = [
-                "years", Num
-                "motnhs", Num
-                "weeks", Num
-                "days", Num
-                "hours", Num
-                "minutes", Num
-                "seconds", Num
+                "years", T<int>
+                "motnhs", T<int>
+                "weeks", T<int>
+                "days", T<int>
+                "hours", T<int>
+                "minutes", T<int>
+                "seconds", T<int>
             ]
         }
 
@@ -225,8 +201,8 @@ module Definition =
             Required = []
             Optional = [
                 "locale", T<obj>
-                "weekStartsOn", DayFromZero.Type
-                "firstWeekContainsDate", Num
+                "weekStartsOn", T<int>
+                "firstWeekContainsDate", T<int>
                 "useAdditionalWeekYearTokens", T<bool>
                 "useAdditionalDayOfYearTokens", T<bool>
             ]
@@ -303,19 +279,11 @@ module Definition =
             ]
         }
 
-    let FractionDigits =
-        Pattern.EnumInlines "FractionDigits" [
-            "0", "0"
-            "1", "1"
-            "2", "2"
-            "3", "3"
-        ]
-
     let FormatRFC3339Options =
         Pattern.Config "FormatRFC3339Options" {
             Required = []
             Optional = [
-                "fractionDigits", FractionDigits.Type
+                "fractionDigits", T<int>
             ]
         }
 
@@ -324,7 +292,7 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
+                "weekStartsOn", T<int>
             ]
         }
 
@@ -401,8 +369,8 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
-                "firstWeekContainsDate", DayFromOne.Type
+                "weekStartsOn", T<int>
+                "firstWeekContainsDate", T<int>
                 "useAdditionalWeekYearTokens", T<bool>
                 "useAdditionalDayOfYearTokens", T<bool>
             ]
@@ -413,25 +381,18 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
-                "firstWeekContainsDate", DayFromOne.Type
+                "weekStartsOn", T<int>
+                "firstWeekContainsDate", T<int>
                 "useAdditionalWeekYearTokens", T<bool>
                 "useAdditionalDayOfYearTokens", T<bool>
             ]
         }
 
-    let AdditionalDigits =
-        Pattern.EnumInlines "AdditionalDigits" [
-            "0", "0"
-            "1", "1"
-            "2", "2"
-        ]
-
     let ParseISOOptions =
         Pattern.Config "ParseISOOptions" {
             Required = []
             Optional = [
-                "additionalDigits", AdditionalDigits.Type
+                "additionalDigits", T<int>
             ]
         }
 
@@ -439,13 +400,13 @@ module Definition =
         Pattern.Config "SetValues" {
             Required = []
             Optional = [
-                "year", Num
-                "motnh", Num
-                "date", Num
-                "hours", Num
-                "minutes", Num
-                "seconds", Num
-                "milliseconds", Num
+                "year", T<int>
+                "motnh", T<int>
+                "date", T<int>
+                "hours", T<int>
+                "minutes", T<int>
+                "seconds", T<int>
+                "milliseconds", T<int>
             ]
         }
 
@@ -461,7 +422,7 @@ module Definition =
         Pattern.Config "EachDayOfIntervalOptions" {
             Required = []
             Optional = [
-                "step", Num
+                "step", T<int>
             ]
         }
 
@@ -470,7 +431,7 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
+                "weekStartsOn", T<int>
             ]
         }
 
@@ -478,7 +439,7 @@ module Definition =
         Pattern.Config "RoundToNearestMinuteOptions" {
             Required = []
             Optional = [
-                "nearestTo", Num
+                "nearestTo", T<int>
             ]
         }
 
@@ -487,7 +448,7 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
+                "weekStartsOn", T<int>
             ]
         }
 
@@ -496,7 +457,7 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
+                "weekStartsOn", T<int>
             ]
         }
 
@@ -505,8 +466,8 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
-                "firstWeekContainsDate", DayFromOne.Type
+                "weekStartsOn", T<int>
+                "firstWeekContainsDate", T<int>
             ]
         }
 
@@ -514,7 +475,7 @@ module Definition =
         Pattern.Config "LastDayOfQuarterOptions" {
             Required = []
             Optional = [
-                "additionalDigits", AdditionalDigits.Type
+                "additionalDigits", T<int>
             ]
         }
 
@@ -522,7 +483,7 @@ module Definition =
         Pattern.Config "EndOfDecadeOptions" {
             Required = []
             Optional = [
-                "additionalDigits", AdditionalDigits.Type
+                "additionalDigits", T<int>
             ]
         }
 
@@ -531,8 +492,8 @@ module Definition =
             Required = []
             Optional = [
                 "locale", Locale.Type
-                "weekStartsOn", DayFromZero.Type
-                "firstWeekContainsDate", DayFromOne.Type
+                "weekStartsOn", T<int>
+                "firstWeekContainsDate", T<int>
             ]
         }
 
@@ -541,125 +502,125 @@ module Definition =
         |> WithSourceName "DateFNS"
         |+> Static [
             // Common helpers
-            "add" => (T<Date> + Num)?date * Duration?duration ^-> T<Date>
+            "add" => (T<Date> + T<int>)?date * Duration?duration ^-> T<Date>
             |> WithComment "Add the specified years, months, weeks, days, hours, minutes and seconds to the given date"
-            "closestIndexTo" => (T<Date> + Num)?dateToCompare * (!| T<Date> + !| Num)?datesArray ^-> Num
+            "closestIndexTo" => (T<Date> + T<int>)?dateToCompare * (!| T<Date> + !| T<int>)?datesArray ^-> T<int>
             |> WithComment "Return an index of the closest date from the array comparing to the given date"
-            "closestTo" => (T<Date> + Num)?dateToCompare * (!| T<Date> + !| Num)?datesArray ^-> T<Date>
+            "closestTo" => (T<Date> + T<int>)?dateToCompare * (!| T<Date> + !| T<int>)?datesArray ^-> T<Date>
             |> WithComment "Return a date from the array closest to the given date"
-            "compareAsc" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "compareAsc" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Compare the two dates and return 1 if the first date is after the second, -1 if the first date is before the second or 0 if dates are equal"
-            "comparedesc" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "comparedesc" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Compare the two dates and return -1 if the first date is after the second, 1 if the first date is before the second or 0 if dates are equal"
-            "format" => (T<Date> + Num)?date * T<string>?format * !? FormatOptions?options ^-> T<string>
+            "format" => (T<Date> + T<int>)?date * T<string>?format * !? FormatOptions?options ^-> T<string>
             |> WithComment "Return the formatted date string in the given format. The result may vary by locale"
-            "formatDistance" => (T<Date> + Num)?date * (T<Date> + Num)?baseDate * !? FormatDistanceOptions?options ^-> T<string>
+            "formatDistance" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?baseDate * !? FormatDistanceOptions?options ^-> T<string>
             |> WithComment "Return the distance between the given dates in words"
-            "formatDistanceStrict" => (T<Date> + Num)?date * (T<Date> + Num)?baseDate * !? FormatDistanceStrictOptions?options ^-> T<string>
+            "formatDistanceStrict" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?baseDate * !? FormatDistanceStrictOptions?options ^-> T<string>
             |> WithComment "Return the distance between the given dates in words, using strict units. This is like `formatDistance`, but does not use helpers like 'almost', 'over', 'less than' and the like"
-            "formatDistanceToNow" => (T<Date> + Num)?date * FormatDistanceOptions?options ^-> T<string>
+            "formatDistanceToNow" => (T<Date> + T<int>)?date * FormatDistanceOptions?options ^-> T<string>
             |> WithComment "Return the distance between the given date and now in words"
-            "formatDistanceToNowStrict" => (T<Date> + Num)?date * !? FormatDistanceStrictOptions?options ^-> T<string>
+            "formatDistanceToNowStrict" => (T<Date> + T<int>)?date * !? FormatDistanceStrictOptions?options ^-> T<string>
             |> WithComment "Return the distance between the given dates in words, using strict units. This is like `formatDistance`, but does not use helpers like 'almost', 'over', 'less than' and the like"
             "formatDuration" => Duration?duration * !? FormatDurationOptions?options ^-> T<string>
             |> WithComment "Return human-readable duration string i.e. `9 months 2 days`"
-            "formatISO" => (T<Date> + Num)?date * !? FormatISOOptions?options ^-> T<string>
+            "formatISO" => (T<Date> + T<int>)?date * !? FormatISOOptions?options ^-> T<string>
             |> WithComment "Return the formatted date string in ISO 8601 format. Options may be passed to control the parts and notations of the date"
-            "formatISO9075" => (T<Date> + Num)?date * !? FormatISOOptions?options ^-> T<string>
+            "formatISO9075" => (T<Date> + T<int>)?date * !? FormatISOOptions?options ^-> T<string>
             |> WithComment "Return the formatted date string in ISO 9075 format. Options may be passed to control the parts and notations of the date"
             "formatISODuration" => Duration?duration ^-> T<string>
             |> WithComment "Format a duration object according to the ISO 8601 duration standard"
-            "formatRFC3339" => (T<Date> + Num)?date * !? FormatRFC3339Options?options ^-> T<string>
+            "formatRFC3339" => (T<Date> + T<int>)?date * !? FormatRFC3339Options?options ^-> T<string>
             |> WithComment "Return the formatted date string in RFC 3339 format. Options may be passed to control the parts and notations of the date"
-            "formatRFC7231" => (T<Date> + Num)?date ^-> T<string>
+            "formatRFC7231" => (T<Date> + T<int>)?date ^-> T<string>
             |> WithComment "Return the formatted date string in RFC 7231 format. The result will always be in UTC timezone"
-            "formatRelative" => (T<Date> + Num)?date * (T<Date> + Num)?baseDate * !? FormatRelativeOptions?options ^-> T<string>
+            "formatRelative" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?baseDate * !? FormatRelativeOptions?options ^-> T<string>
             |> WithComment "Represent the date in words relative to the given base date"
             "intervalToDuration" => Interval?interval ^-> Duration
             |> WithComment "Convert a interval object to a duration object"
-            "intlFormat" => (T<Date> + Num)?argument * !? IntlFormatOptions?formatOptions * !? IntlLocaleOptions?localeOptions ^-> T<string>
+            "intlFormat" => (T<Date> + T<int>)?argument * !? IntlFormatOptions?formatOptions * !? IntlLocaleOptions?localeOptions ^-> T<string>
             |> WithComment "Return the formatted date string in the given format. The method uses `Intl.DateTimeFormat` inside. `formatOptions` are the same as `Intl.DateTimeFormat` options"
-            "isAfter" => (T<Date> + Num)?date * (T<Date> + Num)?dateToCompare ^-> T<bool>
+            "isAfter" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?dateToCompare ^-> T<bool>
             |> WithComment "Is the first date after the second one?"
-            "isBefore" => (T<Date> + Num)?date * (T<Date> + Num)?dateToCompare ^-> T<bool>
+            "isBefore" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?dateToCompare ^-> T<bool>
             |> WithComment "Is the first date before the second one?"
             "isDate" => T<obj>?value ^-> T<bool>
             |> WithComment "Returns true if the given value is an instance of Date. The function works for dates transferred across iframes"
-            "isEqual" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isEqual" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates equal?"
-            "isExists" => Num?year * Num?month * Num?day ^-> T<bool>
+            "isExists" => T<int>?year * T<int>?month * T<int>?day ^-> T<bool>
             |> WithComment "Checks if the given arguments convert to an existing date"
-            "isFuture" => (T<Date> + Num)?date ^-> T<bool>
+            "isFuture" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date in the future?"
             "isMatch" => T<string>?dateString * T<string>?formatString * !? IsMatchOptions?options ^-> T<bool>
             |> WithComment "Return the true if given date is string correct against the given format else will return false"
-            "isPast" => (T<Date> + Num)?date ^-> T<bool>
+            "isPast" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date in the past?"
             "isValid" => T<obj>?date ^-> T<bool>
             |> WithComment "Returns false if argument is Invalid Date and true otherwise. Argument is converted to Date using `toDate`. See toDate Invalid Date is a Date, whose time value is NaN"
-            "lightFormat" => (T<Date> + Num)?date * T<string>?format ^-> T<string>
+            "lightFormat" => (T<Date> + T<int>)?date * T<string>?format ^-> T<string>
             |> WithComment "Return the formatted date string in the given format. Unlike `format`, `lightFormat` doesn't use locales and outputs date using the most popular tokens"
-            "max" => (!| T<Date> + !| Num)?datesArray ^-> T<Date>
+            "max" => (!| T<Date> + !| T<int>)?datesArray ^-> T<Date>
             |> WithComment "Return the latest of the given dates"
-            "min" => (!| T<Date> + !| Num)?datesArray ^-> T<Date>
+            "min" => (!| T<Date> + !| T<int>)?datesArray ^-> T<Date>
             |> WithComment "Returns the earliest of the given dates"
-            "parse" => T<string>?dateString * T<string>?formatString * (T<Date> + Num)?referenceDate * !? ParseOptions ^-> T<Date>
+            "parse" => T<string>?dateString * T<string>?formatString * (T<Date> + T<int>)?referenceDate * !? ParseOptions ^-> T<Date>
             |> WithComment "Return the date parsed from string using the given format string"
             "parseISO" => T<string>?argument * !? ParseISOOptions?options ^-> T<Date>
             |> WithComment "Parse the given string in ISO 8601 format and return an instance of Date"
-            "parseJSON" => (T<string> + Num + T<Date>)?argument ^-> T<Date>
+            "parseJSON" => (T<string> + T<int> + T<Date>)?argument ^-> T<Date>
             |> WithComment "Converts a complete ISO date string in UTC time, the typical format for transmitting a date in JSON, to a JavaScript `Date` instance"
-            "set" => (T<Date> + Num)?date * SetValues?values ^-> T<Date>
+            "set" => (T<Date> + T<int>)?date * SetValues?values ^-> T<Date>
             |> WithComment "Set date values to a given date"
-            "sub" => (T<Date> + Num)?date * Duration?duration ^-> T<Date>
+            "sub" => (T<Date> + T<int>)?date * Duration?duration ^-> T<Date>
             |> WithComment "Subtract the specified years, months, weeks, days, hours, minutes and seconds from the given date"
-            "toDate" => (T<Date> + Num)?argument ^-> T<Date>
+            "toDate" => (T<Date> + T<int>)?argument ^-> T<Date>
             |> WithComment "Convert the given argument to an instance of Date"
             // Conversion helpers
-            "daysToWeeks" => Num?days ^-> Num
+            "daysToWeeks" => T<int>?days ^-> T<int>
             |> WithComment "Convert a number of days to a full number of weeks"
-            "hoursToMilliseconds" => Num?hours ^-> Num
+            "hoursToMilliseconds" => T<int>?hours ^-> T<int>
             |> WithComment "Convert a number of hours to a full number of milliseconds"
-            "hoursToMinutes" => Num?hours ^-> Num
+            "hoursToMinutes" => T<int>?hours ^-> T<int>
             |> WithComment "Convert a number of hours to a full number of minutes"
-            "hoursToSeconds" => Num?hours ^-> Num
+            "hoursToSeconds" => T<int>?hours ^-> T<int>
             |> WithComment "Convert a number of hours to a full number of seconds"
-            "millisecondsToHours" => Num?milliseconds ^-> Num
+            "millisecondsToHours" => T<int>?milliseconds ^-> T<int>
             |> WithComment "Convert a number of milliseconds to a full number of hours"
-            "millisecondsToMinutes" => Num?milliseconds ^-> Num
+            "millisecondsToMinutes" => T<int>?milliseconds ^-> T<int>
             |> WithComment "Convert a number of milliseconds to a full number of minutes"
-            "millisecondsToSeconds" => Num?milliseconds ^-> Num
+            "millisecondsToSeconds" => T<int>?milliseconds ^-> T<int>
             |> WithComment "Convert a number of milliseconds to a full number of seconds"
-            "minutesToHours" => Num?minutes ^-> Num
+            "minutesToHours" => T<int>?minutes ^-> T<int>
             |> WithComment "Convert a number of minutes to a full number of hours"
-            "minutesToMilliseconds" => Num?minutes ^-> Num
+            "minutesToMilliseconds" => T<int>?minutes ^-> T<int>
             |> WithComment "Convert a number of minutes to a full number of milliseconds"
-            "minutesToSeconds" => Num?minutes ^-> Num
+            "minutesToSeconds" => T<int>?minutes ^-> T<int>
             |> WithComment "Convert a number of minutes to a full number of seconds"
-            "monthsToQuarters" => Num?months ^-> Num
+            "monthsToQuarters" => T<int>?months ^-> T<int>
             |> WithComment "Convert a number of months to a full number of quarters"
-            "monthsToYears" => Num?months ^-> Num
+            "monthsToYears" => T<int>?months ^-> T<int>
             |> WithComment "Convert a number of months to a full number of years"
-            "quartersToMonths" => Num?quarters ^-> Num
+            "quartersToMonths" => T<int>?quarters ^-> T<int>
             |> WithComment "Convert a number of quarters to a full number of months"
-            "quartersToYears" => Num?quarters ^-> Num
+            "quartersToYears" => T<int>?quarters ^-> T<int>
             |> WithComment "Convert a number of quarters to a full number of years"
-            "secondsToHours" => Num?seconds ^-> Num
+            "secondsToHours" => T<int>?seconds ^-> T<int>
             |> WithComment "Convert a number of seconds to a full number of hours"
-            "secondsToMilliseconds" => Num?seconds ^-> Num
+            "secondsToMilliseconds" => T<int>?seconds ^-> T<int>
             |> WithComment "Convert a number of seconds to a full number of milliseconds"
-            "secondsToMinutes" => Num?seconds ^-> Num
+            "secondsToMinutes" => T<int>?seconds ^-> T<int>
             |> WithComment "Convert a number of seconds to a full number of minutes"
-            "weeksToDays" => Num?weeks ^-> Num
+            "weeksToDays" => T<int>?weeks ^-> T<int>
             |> WithComment "Convert a number of weeks to a full number of days"
-            "yearsToMonths" => Num?years ^-> Num
+            "yearsToMonths" => T<int>?years ^-> T<int>
             |> WithComment "Convert a number of years to a full number of months"
-            "yearsToQuarters" => Num?years ^-> Num
+            "yearsToQuarters" => T<int>?years ^-> T<int>
             |> WithComment "Convert a number of years to a full number of quarters"
             // Interval helpers
             "areIntervalsOverlapping" => Interval?intervalLeft * Interval?intervalRight * !? AreIntervalsOverlappingOptions?options ^-> T<bool>
             |> WithComment "Is the given time interval overlapping with another time interval? Adjacent intervals do not count as overlapping"
-            "clamp" => (T<Date> + Num)?date * Interval?interval ^-> T<Date>
+            "clamp" => (T<Date> + T<int>)?date * Interval?interval ^-> T<Date>
             |> WithComment "Clamps a date to the lower bound with the start of the interval and the upper bound with the end of the interval"
             "eachDayOfInterval" => Interval?interval * !? EachDHMOfIntervalOptions?options ^-> !| T<Date>
             |> WithComment "Return the array of dates within the specified time interval"
@@ -677,101 +638,101 @@ module Definition =
             |> WithComment "Get all the Saturdays and Sundays in the given date interval"
             "eachYearOfInterval" => Interval?interval ^-> !| T<Date>
             |> WithComment "Return the array of yearly timestamps within the specified time interval"
-            "getOverlappingDaysInIntervals" => Interval?intervalLeft * Interval?intervalRight ^-> !| Num
+            "getOverlappingDaysInIntervals" => Interval?intervalLeft * Interval?intervalRight ^-> !| T<int>
             |> WithComment "Get the number of days that overlap in two time intervals"
-            "isWithinInterval" => (T<Date> + Num)?date * Interval?interval ^-> T<bool>
+            "isWithinInterval" => (T<Date> + T<int>)?date * Interval?interval ^-> T<bool>
             |> WithComment "Is the given date within the interval? (Including start and end)"
             // Timestamp helpers
-            "fromUnixTime" => Num?unixTime ^-> T<Date>
+            "fromUnixTime" => T<int>?unixTime ^-> T<Date>
             |> WithComment "Create a date from a Unix timestamp"
-            "getTime" => (T<Date> + Num)?date ^-> Num
+            "getTime" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the milliseconds timestamp of the given date"
-            "getUnixTime" => (T<Date> + Num)?date ^-> Num
+            "getUnixTime" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the seconds timestamp of the given date"
             // Millisecond helpers
-            "addMilliseconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addMilliseconds" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of milliseconds to the given date"
-            "differenceInMilliseconds" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInMilliseconds" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of milliseconds between the given dates"
-            "getMilliseconds" => (T<Date> + Num)?date ^-> T<Date> 
+            "getMilliseconds" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Get the milliseconds of the given date"
-            "milliseconds" => Duration?duration ^-> Num
+            "milliseconds" => Duration?duration ^-> T<int>
             |> WithComment "Returns the number of milliseconds in the specified, years, months, weeks, days, hours, minutes and seconds"
-            "setMilliseconds" => (T<Date> + Num)?date * Num?milliseconds ^-> T<Date>
+            "setMilliseconds" => (T<Date> + T<int>)?date * T<int>?milliseconds ^-> T<Date>
             |> WithComment "Set the milliseconds to the given date"
-            "subMilliseconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subMilliseconds" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of milliseconds from the given date"
             // Second helpers
-            "addSeconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addSeconds" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of seconds to the given date"
-            "differenceInSeconds" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInSeconds" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of seconds between the given dates"
-            "endOfSecond" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfSecond" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of a second for the given date. The result will be in the local timezone"
-            "getSeconds" => (T<Date> + Num)?date ^-> Num
+            "getSeconds" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the seconds of the given date"
-            "isSameSecond" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameSecond" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same second?"
-            "isThisSecond" => (T<Date> + Num)?date ^-> T<bool>
+            "isThisSecond" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "setSeconds" => (T<Date> + Num)?date * Num?seconds ^-> T<Date>
+            "setSeconds" => (T<Date> + T<int>)?date * T<int>?seconds ^-> T<Date>
             |> WithComment "Set the seconds to the given date"
-            "startOfSecond" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfSecond" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of a second for the given date. The result will be in the local timezone"
-            "subSeconds" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subSeconds" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of seconds from the given date"
             // Minute helpers
-            "addMinutes" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addMinutes" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of minutes to the given date"
-            "differenceInMinutes" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInMinutes" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the signed number of full (rounded towards 0) minutes between the given dates"
-            "endOfMinute" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfMinute" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of a minute for the given date. The result will be in the local timezone"
-            "getMinutes" => (T<Date> + Num)?date ^-> Num
+            "getMinutes" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the minutes of the given date"
-            "isSameMinute" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameMinute" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same minute?"
-            "isThisMinute" => (T<Date> + Num)?date ^-> T<bool>
+            "isThisMinute" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "roundToNearestMinutes" => (T<Date> + Num)?date * !? RoundToNearestMinuteOptions?options ^-> T<Date>
+            "roundToNearestMinutes" => (T<Date> + T<int>)?date * !? RoundToNearestMinuteOptions?options ^-> T<Date>
             |> WithComment "Rounds the given date to the nearest minute (or number of minutes). Rounds up when the given date is exactly between the nearest round minutes"
-            "setMinutes" => (T<Date> + Num)?date * Num?minutes ^-> T<Date>
+            "setMinutes" => (T<Date> + T<int>)?date * T<int>?minutes ^-> T<Date>
             |> WithComment "Set the minutes to the given date"
-            "startOfMinute" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfMinute" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of a minute for the given date. The result will be in the local timezone"
-            "subMinutes" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subMinutes" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of minutes from the given date"
             // Hour helpers
-            "addHours" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addHours" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of hours to the given date"
-            "differenceInHours" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInHours" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of hours between the given dates"
-            "endOfHour" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfHour" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of an hour for the given date. The result will be in the local timezone"
-            "getHours" => (T<Date> + Num)?date ^-> Num
+            "getHours" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the hours of the given date"
-            "isSameHour" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameHour" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same hour?"
-            "isThisHour" => (T<Date> + Num)?date ^-> T<bool>
+            "isThisHour" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "setHours" => (T<Date> + Num)?date * Num?hours ^-> T<Date>
+            "setHours" => (T<Date> + T<int>)?date * T<int>?hours ^-> T<Date>
             |> WithComment "Set the hours to the given date"
-            "startOfHour" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfHour" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of an hour for the given date. The result will be in the local timezone"
-            "subHours" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subHours" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of hours from the given date"
             // Day helpers
-            "addBusinessDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addBusinessDays" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of business days (mon - fri) to the given date, ignoring weekends"
-            "addDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addDays" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of days to the given date"
-            "differenceInBusinessDays" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInBusinessDays" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of business day periods between the given dates. Business days being days that arent in the weekend. Like `differenceInCalendarDays`, the function removes the times from the dates before calculating the difference"
-            "differenceInCalendarDays" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInCalendarDays" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of calendar days between the given dates. This means that the times are removed from the dates and then the difference in days is calculated"
-            "differenceInDays" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInDays" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of full day periods between two dates. Fractional days are truncated towards zero"
-            "endOfDay" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfDay" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of a day for the given date. The result will be in the local timezone"
             "endOfToday" => T<unit> ^-> T<Date>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
@@ -779,23 +740,23 @@ module Definition =
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
             "endOfYesterday" => T<unit> ^-> T<Date>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "getDate" => (T<Date> + Num)?date ^-> Num
+            "getDate" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the day of the month of the given date"
-            "getDayOfYear" => (T<Date> + Num)?date ^-> Num
+            "getDayOfYear" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the day of the year of the given date"
-            "isSameDay" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameDay" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same day?"
-            "isToday" => (T<Date> + Num)?date ^-> T<bool>
+            "isToday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "isTomorrow" => (T<Date> + Num)?date ^-> T<bool>
+            "isTomorrow" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "isYesterday" => (T<Date> + Num)?date ^-> T<bool>
+            "isYesterday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "setDate" => (T<Date> + Num)?date * Num?dayOfMonth ^-> T<Date>
+            "setDate" => (T<Date> + T<int>)?date * T<int>?dayOfMonth ^-> T<Date>
             |> WithComment "Set the day of the month to the given date"
-            "setDayOfYear" => (T<Date> + Num)?date * Num?dayOfYear ^-> T<Date>
+            "setDayOfYear" => (T<Date> + T<int>)?date * T<int>?dayOfYear ^-> T<Date>
             |> WithComment "Set the day of the year to the given date"
-            "startOfDay" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfDay" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of a day for the given date. The result will be in the local timezone"
             "startOfToday" => T<unit> ^-> T<Date>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
@@ -803,216 +764,216 @@ module Definition =
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
             "startOfYesterday" => T<unit> ^-> T<Date>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "subBusinessDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subBusinessDays" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Substract the specified number of business days (mon - fri) to the given date, ignoring weekends"
-            "subDays" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subDays" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of days from the given date"
             // Weekday helpers
-            "getDay" => (T<Date> + Num)?date ^-> DayFromZero
+            "getDay" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the day of the week of the given date"
-            "getISODay" => (T<Date> + Num)?date ^-> DayFromZero
+            "getISODay" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the day of the ISO week of the given date, which is 7 for Sunday, 1 for Monday etc."
-            "isFriday" => (T<Date> + Num)?date ^-> T<bool>
+            "isFriday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date Friday?"
-            "isMonday" => (T<Date> + Num)?date ^-> T<bool>
+            "isMonday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date Monday?"
-            "isSaturday" => (T<Date> + Num)?date ^-> T<bool>
+            "isSaturday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date Saturday?"
-            "isSunday" => (T<Date> + Num)?date ^-> T<bool>
+            "isSunday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date Sunday?"
-            "isThursday" => (T<Date> + Num)?date ^-> T<bool>
+            "isThursday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date Thursday?"
-            "isTuesday" => (T<Date> + Num)?date ^-> T<bool>
+            "isTuesday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date Tuesday?"
-            "isWednesday" => (T<Date> + Num)?date ^-> T<bool>
+            "isWednesday" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date Wednesday?"
-            "isWeekend" => (T<Date> + Num)?date ^-> T<bool>
+            "isWeekend" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Does the given date fall on a weekend?"
-            "nextDay" => (T<Date> + Num)?date * DayFromZero?day ^-> T<Date>
+            "nextDay" => (T<Date> + T<int>)?date * T<int>?day ^-> T<Date>
             |> WithComment "When is the next day of the week? 0-6 the day of the week, 0 represents Sunday"
-            "nextFriday" => (T<Date> + Num)?date ^-> T<Date>
+            "nextFriday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Friday?"
-            "nextMonday" => (T<Date> + Num)?date ^-> T<Date>
+            "nextMonday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Monday?"
-            "nextSaturday" => (T<Date> + Num)?date ^-> T<Date>
+            "nextSaturday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Saturday?"
-            "nextSunday" => (T<Date> + Num)?date ^-> T<Date>
+            "nextSunday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Sunday?"
-            "nextThursday" => (T<Date> + Num)?date ^-> T<Date>
+            "nextThursday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Thursday?"
-            "nextTuesday" => (T<Date> + Num)?date ^-> T<Date>
+            "nextTuesday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Tuesday?"
-            "nextWednesday" => (T<Date> + Num)?date ^-> T<Date>
+            "nextWednesday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Wednesday?"
-            "setDay" => (T<Date> + Num)?date * DayFromZero?day * !? SetDayOptions?options ^-> T<Date>
+            "setDay" => (T<Date> + T<int>)?date * T<int>?day * !? SetDayOptions?options ^-> T<Date>
             |> WithComment "Set the day of the week to the given date"
-            "setISODay" => (T<Date> + Num)?date * DayFromZero?day ^-> T<Date>
+            "setISODay" => (T<Date> + T<int>)?date * T<int>?day ^-> T<Date>
             |> WithComment "Set the day of the ISO week to the given date. ISO week starts with Monday. 7 is the index of Sunday, 1 is the index of Monday etc."
             // Week helpers
-            "addWeeks" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addWeeks" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of week to the given date"
-            "differenceInCalendarWeeks" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight * !? WeekHelperOptions1?options ^-> Num
+            "differenceInCalendarWeeks" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight * !? WeekHelperOptions1?options ^-> T<int>
             |> WithComment "Get the number of calendar weeks between the given dates"
-            "differenceInWeeks" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInWeeks" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of full weeks between two dates. Fractional weeks are truncated towards zero"
-            "endOfWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<Date> 
+            "endOfWeek" => (T<Date> + T<int>)?date * !? WeekHelperOptions1?options ^-> T<Date> 
             |> WithComment "Return the end of a week for the given date. The result will be in the local timezone"
-            "getWeek" => (T<Date> + Num)?date * !? WeekHelperOptions2?options ^-> Num
+            "getWeek" => (T<Date> + T<int>)?date * !? WeekHelperOptions2?options ^-> T<int>
             |> WithComment "Get the local week index of the given date. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
-            "getWeekOfMonth" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> Num
+            "getWeekOfMonth" => (T<Date> + T<int>)?date * !? WeekHelperOptions1?options ^-> T<int>
             |> WithComment "Get the week of the month of the given date"
-            "getWeeksInMonth" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> Num
+            "getWeeksInMonth" => (T<Date> + T<int>)?date * !? WeekHelperOptions1?options ^-> T<int>
             |> WithComment "Get the number of calendar weeks the month in the given date spans"
-            "isSameWeek" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight * !? WeekHelperOptions1?options ^-> T<bool>
+            "isSameWeek" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight * !? WeekHelperOptions1?options ^-> T<bool>
             |> WithComment "Are the given dates in the same week?"
-            "isThisWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<bool>
+            "isThisWeek" => (T<Date> + T<int>)?date * !? WeekHelperOptions1?options ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "lastDayOfWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<bool>
+            "lastDayOfWeek" => (T<Date> + T<int>)?date * !? WeekHelperOptions1?options ^-> T<bool>
             |> WithComment "Return the last day of a week for the given date. The result will be in the local timezone"
-            "setWeek" => (T<Date> + Num)?date * Num?week * !? WeekHelperOptions2?options ^-> T<Date>
+            "setWeek" => (T<Date> + T<int>)?date * T<int>?week * !? WeekHelperOptions2?options ^-> T<Date>
             |> WithComment "Set the local week to the given date, saving the weekday number. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
-            "startOfWeek" => (T<Date> + Num)?date * !? WeekHelperOptions1?options ^-> T<Date>
+            "startOfWeek" => (T<Date> + T<int>)?date * !? WeekHelperOptions1?options ^-> T<Date>
             |> WithComment "Return the start of a week for the given date. The result will be in the local timezone"
-            "subWeeks" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subWeeks" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of weeks from the given date"
             // ISO Week helpers
-            "differenceInCalendarISOWeeks" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInCalendarISOWeeks" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of calendar ISO weeks between the given dates"
-            "endOfISOWeek" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfISOWeek" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of an ISO week for the given date. The result will be in the local timezone"
-            "getISOWeek" => (T<Date> + Num)?date ^-> Num
+            "getISOWeek" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the ISO week of the given date"
-            "isSameISOWeek" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameISOWeek" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same ISO week?"
-            "isThisISOWeek" => (T<Date> + Num)?date ^-> T<bool>
+            "isThisISOWeek" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "lastDayOfISOWeek" => (T<Date> + Num)?date ^-> T<bool>
+            "lastDayOfISOWeek" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Return the last day of an ISO week for the given date. The result will be in the local timezone"
-            "setISOWeek" => (T<Date> + Num)?date * Num?isoWeek ^-> T<Date>
+            "setISOWeek" => (T<Date> + T<int>)?date * T<int>?isoWeek ^-> T<Date>
             |> WithComment "Set the ISO week to the given date, saving the weekday number"
-            "startOfISOWeek" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfISOWeek" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of an ISO week for the given date. The result will be in the local timezone"
             // Month helpers
-            "addMonths" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addMonths" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of months to the given date"
-            "differenceInCalendarMonths" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInCalendarMonths" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of calendar months between the given dates"
-            "differenceInMonths" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInMonths" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of full months between the given dates"
-            "eachWeekendOfMonth" => (T<Date> + Num)?date ^-> !| T<Date>
+            "eachWeekendOfMonth" => (T<Date> + T<int>)?date ^-> !| T<Date>
             |> WithComment "Get all the Saturdays and Sundays in the given month"
-            "endOfMonth" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfMonth" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of a month for the given date. The result will be in the local timezone"
-            "getDaysInMonth" => (T<Date> + Num)?date ^-> Num
+            "getDaysInMonth" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the number of days in a month of the given date"
-            "getMonth" => (T<Date> + Num)?date ^-> Num
+            "getMonth" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the month of the given date"
-            "isFirstDayOfMonth" => (T<Date> + Num)?date ^-> T<bool>
+            "isFirstDayOfMonth" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date the first day of a month?"
-            "isLastDayOfMonth" => (T<Date> + Num)?date ^-> T<bool>
+            "isLastDayOfMonth" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date the last day of a month?"
-            "isSameMonth" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameMonth" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same month?"
-            "isThisMonth" => (T<Date> + Num)?date ^-> T<bool>
+            "isThisMonth" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "lastDayOfMonth" => (T<Date> + Num)?date ^-> T<Date>
+            "lastDayOfMonth" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the last day of a month for the given date. The result will be in the local timezone"
-            "setMonth" => (T<Date> + Num)?date * Num?month ^-> T<Date>
+            "setMonth" => (T<Date> + T<int>)?date * T<int>?month ^-> T<Date>
             |> WithComment "Set the month to the given date"
-            "startOfMonth" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfMonth" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of a month for the given date. The result will be in the local timezone"
-            "subMonths" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subMonths" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of months from the given date"
             // Quarter helpers
-            "addQuarters" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addQuarters" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of year quarters to the given date"
-            "differenceInCalendarQuarters" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInCalendarQuarters" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of calendar quarters between the given dates"
-            "differenceInQuarters" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInQuarters" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of full quarters between the given dates"
-            "endOfQuarter" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfQuarter" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of a year quarter for the given date. The result will be in the local timezone"
-            "getQuarter" => (T<Date> + Num)?date ^-> Num
+            "getQuarter" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the year quarter of the given date"
-            "isSameQuarter" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameQuarter" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same year quarter?"
-            "isThisQuarter" => (T<Date> + Num)?date ^-> T<bool>
+            "isThisQuarter" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "lastDayOfQuarter" => (T<Date> + Num)?date * !? LastDayOfQuarterOptions?options ^-> T<Date>
+            "lastDayOfQuarter" => (T<Date> + T<int>)?date * !? LastDayOfQuarterOptions?options ^-> T<Date>
             |> WithComment "Return the last day of a year quarter for the given date. The result will be in the local timezone"
-            "setQuarter" => (T<Date> + Num)?date * Num?quarter ^-> T<Date>
+            "setQuarter" => (T<Date> + T<int>)?date * T<int>?quarter ^-> T<Date>
             |> WithComment "Set the year quarter to the given date"
-            "startOfQuarter" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfQuarter" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of a year quarter for the given date. The result will be in the local timezone"
-            "subQuarters" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subQuarters" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of year quarters from the given date"
             // Year helpers
-            "addYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addYears" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of years to the given date"
-            "differenceInCalendarYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInCalendarYears" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of calendar years between the given dates"
-            "differenceInYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInYears" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of full years between the given dates"
-            "eachWeekendOfYear" => (T<Date> + Num)?date ^-> !| T<Date>
+            "eachWeekendOfYear" => (T<Date> + T<int>)?date ^-> !| T<Date>
             |> WithComment "Get all the Saturdays and Sundays in the year"
-            "endOfYear" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfYear" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of a year for the given date. The result will be in the local timezone"
-            "getDaysInYear" => (T<Date> + Num)?date ^-> Num
+            "getDaysInYear" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the number of days in a year of the given date"
-            "getYear" => (T<Date> + Num)?date ^-> Num
+            "getYear" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the year of the given date"
-            "isLeapYear" => (T<Date> + Num)?date ^-> T<bool>
+            "isLeapYear" => (T<Date> + T<int>)?date ^-> T<bool>
             |> WithComment "Is the given date in the leap year?"
-            "isSameYear" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameYear" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same year?"
-            "isThisYear" => (T<Date> + Num)?date ^-> T<bool>
+            "isThisYear" => (T<Date> + T<int>)?date ^-> T<bool>
             |> ObsoleteWithMessage "Please note that this function is not present in the FP submodule as it uses `Date.now()` internally hence impure and can't be safely curried"
-            "lastDayOfYear" => (T<Date> + Num)?date ^-> T<Date>
+            "lastDayOfYear" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the last day of a year for the given date. The result will be in the local timezone"
-            "setYear" => (T<Date> + Num)?date * Num?year ^-> T<Date>
+            "setYear" => (T<Date> + T<int>)?date * T<int>?year ^-> T<Date>
             |> WithComment "Set the year to the given date"
-            "startOfYear" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfYear" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of a year for the given date. The result will be in the local timezone"
-            "subYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subYears" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of years from the given date"
             // ISO Week-Numbering Year helpers
-            "addISOWeekYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "addISOWeekYears" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Add the specified number of ISO week-numbering years to the given date"
-            "differenceInCalendarISOWeekYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInCalendarISOWeekYears" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of calendar ISO week-numbering years between the given dates"
-            "differenceInISOWeekYears" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> Num
+            "differenceInISOWeekYears" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Get the number of full ISO week-numbering years between the given dates"
-            "endOfISOWeekYear" => (T<Date> + Num)?date ^-> T<Date> 
+            "endOfISOWeekYear" => (T<Date> + T<int>)?date ^-> T<Date> 
             |> WithComment "Return the end of an ISO week-numbering year, which always starts 3 days before the year's first Thursday. The result will be in the local timezone"
-            "getISOWeekYear" => (T<Date> + Num)?date ^-> Num
+            "getISOWeekYear" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the ISO week-numbering year of the given date, which always starts 3 days before the year's first Thursday"
-            "getISOWeeksInYear" => (T<Date> + Num)?date ^-> Num
+            "getISOWeeksInYear" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the number of weeks in an ISO week-numbering year of the given date"
-            "isSameISOWeekYear" => (T<Date> + Num)?dateLeft * (T<Date> + Num)?dateRight ^-> T<bool>
+            "isSameISOWeekYear" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<bool>
             |> WithComment "Are the given dates in the same ISO week-numbering year?"
-            "lastDayOfISOWeekYear" => (T<Date> + Num)?date ^-> T<Date>
+            "lastDayOfISOWeekYear" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the last day of an ISO week-numbering year, which always starts 3 days before the year's first Thursday. The result will be in the local timezone"
-            "setISOWeekYear" => (T<Date> + Num)?date * Num?isoWeekYear ^-> T<Date>
+            "setISOWeekYear" => (T<Date> + T<int>)?date * T<int>?isoWeekYear ^-> T<Date>
             |> WithComment "Set the ISO week-numbering year to the given date, saving the week number and the weekday number"
-            "startOfISOWeekYear" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfISOWeekYear" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of an ISO week-numbering year, which always starts 3 days before the year's first Thursday. The result will be in the local timezone"
-            "subISOWeekYears" => (T<Date> + Num)?date * Num?amount ^-> T<Date>
+            "subISOWeekYears" => (T<Date> + T<int>)?date * T<int>?amount ^-> T<Date>
             |> WithComment "Subtract the specified number of ISO week-numbering years from the given date"
             // Decade helpers
-            "endOfDecade" => (T<Date> + Num)?date * !? EndOfDecadeOptions?options ^-> T<Date>
+            "endOfDecade" => (T<Date> + T<int>)?date * !? EndOfDecadeOptions?options ^-> T<Date>
             |> WithComment "Return the end of a decade for the given date"
-            "getDecade" => (T<Date> + Num)?date ^-> Num
+            "getDecade" => (T<Date> + T<int>)?date ^-> T<int>
             |> WithComment "Get the decade of the given date"
-            "lastDayOfDecade" => (T<Date> + Num)?date ^-> T<Date>
+            "lastDayOfDecade" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the last day of a decade for the given date"
-            "startOfDecade" => (T<Date> + Num)?date ^-> T<Date>
+            "startOfDecade" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "Return the start of a decade for the given date"
             // Week-Numbering Year helpers
-            "getWeekYear" => (T<Date> + Num)?date * !? WeekNumYearHelperOptions?options ^-> Num
+            "getWeekYear" => (T<Date> + T<int>)?date * !? WeekNumYearHelperOptions?options ^-> T<int>
             |> WithComment "Get the local week-numbering year of the given date. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
-            "setWeekYear" => (T<Date> + Num)?date * Num?weekYear * !? WeekNumYearHelperOptions?options ^-> T<Date>
+            "setWeekYear" => (T<Date> + T<int>)?date * T<int>?weekYear * !? WeekNumYearHelperOptions?options ^-> T<Date>
             |> WithComment "Set the local week-numbering year to the given date, saving the week number and the weekday number. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
-            "startOfWeekYear" => (T<Date> + Num)?date * !? WeekNumYearHelperOptions?options ^-> T<Date>
+            "startOfWeekYear" => (T<Date> + T<int>)?date * !? WeekNumYearHelperOptions?options ^-> T<Date>
             |> WithComment "Return the start of a local week-numbering year. The exact calculation depends on the values of `options.weekStartsOn` (which is the index of the first day of the week) and `options.firstWeekContainsDate` (which is the day of January, which is always in the first week of the week-numbering year)"
         ]
 
@@ -1031,8 +992,6 @@ module Definition =
                 Localize
                 FormatLong
                 Match
-                DayFromZero
-                DayFromOne
                 Options
                 Locale
                 Duration
@@ -1045,7 +1004,6 @@ module Definition =
                 Format
                 Representation
                 FormatISOOptions
-                FractionDigits
                 FormatRFC3339Options
                 FormatRelativeOptions
                 LocaleMatcher
@@ -1058,7 +1016,6 @@ module Definition =
                 IntlLocaleOptions
                 IsMatchOptions
                 ParseOptions
-                AdditionalDigits
                 ParseISOOptions
                 SetValues
                 AreIntervalsOverlappingOptions
