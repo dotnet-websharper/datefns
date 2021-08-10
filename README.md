@@ -1,6 +1,6 @@
 # WebSharper.DateFNS
 
-### `date-fns` binding for [WebSharper](https://websharper.com/)
+Provides `date-fns` bindings for [WebSharper](https://websharper.com/).
 
 ## date-fns sources
 
