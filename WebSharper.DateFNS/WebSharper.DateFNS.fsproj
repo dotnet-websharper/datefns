@@ -7,8 +7,11 @@
   <ItemGroup>
     <Compile Include="Main.fs" />
     <None Include="wsconfig.json" />
-    <EmbeddedResource Include="output.js" />
-    <EmbeddedResource Include="locales/*.min.js" />
   </ItemGroup>
+  <PropertyGroup>
+    <NpmDependencies>
+        <NpmPackage Name="date-fns" Version="gt= 2.30.0 lt 3.0.0" ResolutionStrategy="Max" />
+    </NpmDependencies>
+  </PropertyGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
