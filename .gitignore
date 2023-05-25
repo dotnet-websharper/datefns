@@ -6,3 +6,4 @@ packages/
 .fake/
 .paket/
 paket-files/
+.vs/*

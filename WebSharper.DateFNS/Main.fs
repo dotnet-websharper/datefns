@@ -11,27 +11,24 @@ module Definition =
 
     let mutable Resources : CodeModel.NamespaceEntity list = []
 
-    let LocaleSetup (s: string) = 
-        let r =
-            Resource (s.ToUpperInvariant() + "_LOCALE") (sprintf "locale_%s.min.js" s)
-        
-        Resources <- List.append Resources [r]
-
+    let LocaleSetup (s: string) =
         let l = s.Replace("-", "")
 
-        (s.ToUpperInvariant()) =? TSelf
-        |> Requires [r]
-        |> WithGetterInline (sprintf "locale_%s" l)
+        (l.ToUpperInvariant()) =? TSelf
+        |> Import l "date-fns/locale"
 
     let localeStrings =
         [
             "af"
             "ar"
             "ar-DZ"
+            "ar-EG"
             "ar-MA"
             "ar-SA"
+            "ar-TN"
             "az"
             "be"
+            "be-tarask"
             "bg"
             "bn"
             "bs"
@@ -45,6 +42,7 @@ module Definition =
             "en-AU"
             "en-CA"
             "en-GB"
+            "en-IE"
             "en-IN"
             "en-NZ"
             "en-US"
@@ -55,10 +53,10 @@ module Definition =
             "eu"
             "fa-IR"
             "fi"
-            "fil"
             "fr"
             "fr-CA"
             "fr-CH"
+            "fy"
             "gd"
             "gl"
             "gu"
@@ -71,9 +69,12 @@ module Definition =
             "id"
             "is"
             "it"
+            "it-CH"
             "ja"
+            "ja-Hira"
             "ka"
             "kk"
+            "km"
             "kn"
             "ko"
             "lb"
@@ -87,6 +88,7 @@ module Definition =
             "nl"
             "nl-BE"
             "nn"
+            "oc"
             "pl"
             "pt"
             "pt-BR"
@@ -105,8 +107,10 @@ module Definition =
             "ug"
             "uk"
             "uz"
+            "uz-Cyrl"
             "vi"
             "zh-CN"
+            "zh-HK"
             "zh-TW"
         ]
 
@@ -225,6 +229,8 @@ module Definition =
             "hour"
             "day"
             "month"
+            "quarter"
+            "week"
             "year"
         ]
 
@@ -364,6 +370,18 @@ module Definition =
             ]
         }
 
+    let IntlFormatDistanceOptions =
+        Pattern.Config "IntlFormatDistanceOptions" {
+            Required = []
+            Optional = [
+                "unit", Unit.Type
+                "locale", T<string>
+                "localeMatcher", T<string> // TODO: Revisit this
+                "numeric", T<string> // TODO: auto/always
+                "style", IntlFormatRepresentation1.Type // TODO: long, short, narrow
+            ]
+        }
+
     let IsMatchOptions =
         Pattern.Config "IsMatchOptions" {
             Required = []
@@ -373,6 +391,16 @@ module Definition =
                 "firstWeekContainsDate", T<int>
                 "useAdditionalWeekYearTokens", T<bool>
                 "useAdditionalDayOfYearTokens", T<bool>
+            ]
+        }
+
+    let DefaultOptions =
+        Pattern.Config "DefaultOptions" {
+            Required = []
+            Optional = [
+                "locale", Locale.Type
+                "weekStartsOn", T<int>
+                "firstWeekContainsDate", T<int>
             ]
         }
 
@@ -497,6 +525,13 @@ module Definition =
             ]
         }
 
+    let ImportFromDateFNS (e: 'a when 'a :> CodeModel.Entity) =
+        Import e.Name "date-fns" e
+
+    let (=>) (name: string) (ty: Type.IType) =
+        name => ty
+        |> Import name "date-fns"
+
     let DateFNS =
         Class "datefns"
         |> WithSourceName "DateFNS"
@@ -510,7 +545,7 @@ module Definition =
             |> WithComment "Return a date from the array closest to the given date"
             "compareAsc" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Compare the two dates and return 1 if the first date is after the second, -1 if the first date is before the second or 0 if dates are equal"
-            "comparedesc" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
+            "compareDesc" => (T<Date> + T<int>)?dateLeft * (T<Date> + T<int>)?dateRight ^-> T<int>
             |> WithComment "Compare the two dates and return -1 if the first date is after the second, 1 if the first date is before the second or 0 if dates are equal"
             "format" => (T<Date> + T<int>)?date * T<string>?format * !? FormatOptions?options ^-> T<string>
             |> WithComment "Return the formatted date string in the given format. The result may vary by locale"
@@ -540,6 +575,8 @@ module Definition =
             |> WithComment "Convert a interval object to a duration object"
             "intlFormat" => (T<Date> + T<int>)?argument * !? IntlFormatOptions?formatOptions * !? IntlLocaleOptions?localeOptions ^-> T<string>
             |> WithComment "Return the formatted date string in the given format. The method uses `Intl.DateTimeFormat` inside. `formatOptions` are the same as `Intl.DateTimeFormat` options"
+            "intlFormatDistance" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?baseDate * !? IntlFormatDistanceOptions?options ^-> T<string>
+            |> WithComment "The function calculates the difference between two dates and formats it as a human-readable string."
             "isAfter" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?dateToCompare ^-> T<bool>
             |> WithComment "Is the first date after the second one?"
             "isBefore" => (T<Date> + T<int>)?date * (T<Date> + T<int>)?dateToCompare ^-> T<bool>
@@ -576,6 +613,8 @@ module Definition =
             |> WithComment "Subtract the specified years, months, weeks, days, hours, minutes and seconds from the given date"
             "toDate" => (T<Date> + T<int>)?argument ^-> T<Date>
             |> WithComment "Convert the given argument to an instance of Date"
+            "getDefaultOptions" => T<unit> ^-> DefaultOptions
+            "setDefaultOptions" => DefaultOptions ^-> T<unit>
             // Conversion helpers
             "daysToWeeks" => T<int>?days ^-> T<int>
             |> WithComment "Convert a number of days to a full number of weeks"
@@ -805,6 +844,23 @@ module Definition =
             |> WithComment "When is the next Tuesday?"
             "nextWednesday" => (T<Date> + T<int>)?date ^-> T<Date>
             |> WithComment "When is the next Wednesday?"
+            // Previous
+            "previousDay" => (T<Date> + T<int>)?date * T<int>?day ^-> T<Date>
+            |> WithComment "When was the previous day of the week? 0-6 the day of the week, 0 represents Sunday"
+            "previousFriday" => (T<Date> + T<int>)?date ^-> T<Date>
+            |> WithComment "When was the previous Friday?"
+            "previousMonday" => (T<Date> + T<int>)?date ^-> T<Date>
+            |> WithComment "When was the previous Monday?"
+            "previousSaturday" => (T<Date> + T<int>)?date ^-> T<Date>
+            |> WithComment "When was the previous Saturday?"
+            "previousSunday" => (T<Date> + T<int>)?date ^-> T<Date>
+            |> WithComment "When was the previous Sunday?"
+            "previousThursday" => (T<Date> + T<int>)?date ^-> T<Date>
+            |> WithComment "When was the previous Thursday?"
+            "previousTuesday" => (T<Date> + T<int>)?date ^-> T<Date>
+            |> WithComment "When was the previous Tuesday?"
+            "previousWednesday" => (T<Date> + T<int>)?date ^-> T<Date>
+            |> WithComment "When was the previous Wednesday?"
             "setDay" => (T<Date> + T<int>)?date * T<int>?day * !? SetDayOptions?options ^-> T<Date>
             |> WithComment "Set the day of the week to the given date"
             "setISODay" => (T<Date> + T<int>)?date * T<int>?day ^-> T<Date>
@@ -980,9 +1036,6 @@ module Definition =
     let Assembly =
         Assembly [
             Namespace "WebSharper.DateFNS.Resource" [
-                yield
-                    Resource "DateFNSJS" "output.js"
-                    |> AssemblyWide
                 yield!
                     Resources
             ]
@@ -1028,6 +1081,8 @@ module Definition =
                 LastDayOfQuarterOptions
                 EndOfDecadeOptions
                 WeekNumYearHelperOptions
+                DefaultOptions
+                IntlFormatDistanceOptions
                 DateFNS
             ]
         ]
