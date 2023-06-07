@@ -32,7 +32,7 @@ module Tests =
             Testing.Mocha.describe("format", fun () ->
                 Testing.Mocha.it("format as MM/dd/yyyy", fun () ->
                     let date = Date(2014, 0, 11)
-                    chai.``assert``.equal(DateFNS.Format(date, "MM/dd/yyyy"), "01/11/2014")
+                    chai.``assert``.equal(DateFNS.Format(date, "MM/dd/yyyy"), "01/12/2014")
                 )   
             )
         )
