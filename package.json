@@ -4,7 +4,7 @@
   "description": "Provides `date-fns` bindings for [WebSharper](https://websharper.com/).",
   "main": "index.js",
   "scripts": {
-    "test": "dotnet tool restore && dotnet build && npx mocha './WebSharper.DateFNS.Tests/Content/Scripts/WebSharper/WebSharper.DateFNS.Tests/$StartupCode_Client.js'"
+    "test": "npx mocha './WebSharper.DateFNS.Tests/Content/Scripts/WebSharper/WebSharper.DateFNS.Tests/$StartupCode_Client.js'"
   },
   "type": "module",
   "author": "",
