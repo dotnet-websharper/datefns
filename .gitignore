@@ -6,3 +6,5 @@ packages/
 .fake/
 .paket/
 paket-files/
+.vs/*
+node_modules/
