@@ -17,11 +17,18 @@ jobs:
       - name: Install Paket as global tool
         run: dotnet tool install paket --global
 
+      - name: Add credentials for Paket
+        run:
+          paket config
+            add-credentials https://nuget.pkg.github.com/dotnet-websharper/index.json
+            --username intellifactory-gh 
+            --password ${{ secrets.PAT_PACKAGE }}
+
       - name: Checkout 🛎️
         uses: actions/checkout@v2
         with:
           persist-credentials: false
-          
+
       - name: Build
         run: ./build CI-Release
 
