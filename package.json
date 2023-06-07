@@ -1,0 +1,19 @@
+{
+  "name": "datefns-testing",
+  "version": "1.0.0",
+  "description": "Provides `date-fns` bindings for [WebSharper](https://websharper.com/).",
+  "main": "index.js",
+  "scripts": {
+    "test": "dotnet build && npx mocha './WebSharper.DateFNS.Tests/Content/Scripts/WebSharper/WebSharper.DateFNS.Tests/$StartupCode_Client.js'"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0"
+  }
+}

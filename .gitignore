@@ -7,3 +7,4 @@ packages/
 .paket/
 paket-files/
 .vs/*
+node_modules/
