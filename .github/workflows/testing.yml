@@ -32,5 +32,8 @@ jobs:
       - name: Build
         run: ./build CI-Release
 
+      - name: Npm install
+        run: npm install
+
       - name: Run tests
         run: npm run test
