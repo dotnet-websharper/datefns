@@ -8,7 +8,7 @@ repositoryUrl https://github.com/dotnet-websharper/datefns/
 licenseUrl https://github.com/dotnet-websharper/datefns/blob/master/LICENSE.md
 iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
 description
-    WebSharper bindings for date-fns 2.30.0
+    WebSharper bindings for date-fns 2.30.0+
 tags
     Web JavaScript F# C#
 files

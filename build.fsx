@@ -32,7 +32,18 @@ nuget Paket.Core prerelease //"
 #endif
 
 open WebSharper.Fake
+open Fake.DotNet
 
 LazyVersionFrom "WebSharper" |> WSTargets.Default
+|> fun args ->
+    { args with
+        Attributes =
+                [
+                    AssemblyInfo.Company "IntelliFactory"
+                    AssemblyInfo.Copyright "(c) IntelliFactory 2023"
+                    AssemblyInfo.Title "https://github.com/dotnet-websharper/datefns"
+                    AssemblyInfo.Product "WebSharper DateFNS 2.30.0+"
+                ]
+    }
 |> MakeTargets
 |> RunTargets
