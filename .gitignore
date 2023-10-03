@@ -8,3 +8,4 @@ packages/
 paket-files/
 .vs/*
 node_modules/
+websharper.log
