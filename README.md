@@ -59,6 +59,7 @@ The following steps should help you make a bundled js version of both the main d
       plugins: [nodeResolve()]
   };
   ```
+  
 
   With this do `rollup --config rollup.config.js`
 * Use rollup on the locale files and put them into the `locales` folder

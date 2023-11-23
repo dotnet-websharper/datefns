@@ -1,0 +1,39 @@
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - websharper70
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2.1.1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Install Paket as global tool
+        run: dotnet tool install paket --global
+
+      - name: Add credentials for Paket
+        run:
+          paket config
+            add-credentials https://nuget.pkg.github.com/dotnet-websharper/index.json
+            --username intellifactory-gh 
+            --password ${{ secrets.PAT_PACKAGE }}
+
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build
+        run: ./build CI-Release
+
+      - name: Npm install
+        run: npm install
+
+      - name: Run tests
+        run: npm run test

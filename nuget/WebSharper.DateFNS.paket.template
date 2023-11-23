@@ -1,5 +1,5 @@
 type file
-id WebSharper.Plotly
+id WebSharper.DateFNS
 authors IntelliFactory
 owners IntelliFactory
 projectUrl https://websharper.com/
@@ -8,12 +8,13 @@ repositoryUrl https://github.com/dotnet-websharper/datefns/
 licenseUrl https://github.com/dotnet-websharper/datefns/blob/master/LICENSE.md
 iconUrl https://github.com/dotnet-websharper/core/raw/websharper50/tools/WebSharper.png
 description
-    WebSharper bindings for date-fns 2.23.0
+    WebSharper bindings for date-fns 2.30.0+
 tags
     Web JavaScript F# C#
 files
     ../WebSharper.DateFNS/bin/Release/netstandard2.0/WebSharper.DateFNS.dll ==> lib/netstandard2.0
     ../WebSharper.DateFNS/bin/Release/netstandard2.0/WebSharper.DateFNS.xml ==> lib/netstandard2.0
+    ../WebSharper.DateFNS/WebSharper.DateFNS.fsproj ==> src/
 dependencies
     framework: netstandard2.0
             WebSharper ~> LOCKEDVERSION:[3]
