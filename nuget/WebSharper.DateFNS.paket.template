@@ -13,6 +13,7 @@ tags
     Web JavaScript F# C#
 files
     ../WebSharper.DateFNS/bin/Release/netstandard2.0/WebSharper.DateFNS.dll ==> lib/netstandard2.0
+    ../WebSharper.DateFNS/bin/Release/netstandard2.0/WebSharper.DateFNS.websharper ==> lib/netstandard2.0
     ../WebSharper.DateFNS/bin/Release/netstandard2.0/WebSharper.DateFNS.xml ==> lib/netstandard2.0
     ../WebSharper.DateFNS/WebSharper.DateFNS.fsproj ==> src/
 dependencies
