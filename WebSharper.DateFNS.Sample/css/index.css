@@ -1,0 +1,257 @@
+/* WebSharper.DateFNS sample — light theme by default, dark via [data-theme="dark"]. */
+
+:root {
+    --bg: #f6f7f9;
+    --surface: #ffffff;
+    --surface-2: #f0f2f5;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e2e5ea;
+    --primary: #0f766e;
+    --primary-weak: #d5efec;
+    --primary-text: #ffffff;
+    --ok: #157f3d;
+    --ok-bg: #e5f6ec;
+    --fail: #b42318;
+    --fail-bg: #fdecea;
+    --code-bg: #f3f4f6;
+    --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .10);
+}
+
+[data-theme="dark"] {
+    --bg: #12151c;
+    --surface: #1b2029;
+    --surface-2: #232a35;
+    --text: #e8eaee;
+    --muted: #9aa4b2;
+    --border: #2c3441;
+    --primary: #2dd4bf;
+    --primary-weak: #123c3a;
+    --primary-text: #06201e;
+    --ok: #6ee7a8;
+    --ok-bg: #10321f;
+    --fail: #fca5a5;
+    --fail-bg: #3a1512;
+    --code-bg: #232a35;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary); }
+
+code {
+    background: var(--code-bg);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.shell {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+}
+
+/* --- top bar ------------------------------------------------------------ */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0 20px;
+    flex-wrap: wrap;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: var(--primary-text);
+    font-family: ui-monospace, monospace;
+    font-weight: 700;
+}
+
+.brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+.brand-text strong { font-size: 16px; }
+.brand-text small { color: var(--muted); font-size: 12.5px; }
+
+.nav { display: flex; align-items: center; gap: 8px; }
+
+button {
+    font: inherit;
+    cursor: pointer;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    padding: 8px 14px;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+button:hover { border-color: var(--primary); }
+
+button.tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-text);
+}
+
+button.ghost { color: var(--muted); }
+
+/* --- content ------------------------------------------------------------ */
+
+.content { min-height: 320px; }
+
+.page-head { margin-bottom: 8px; }
+.page-head h2 { margin: 0 0 6px; font-size: 22px; }
+.page-head h3 { margin: 22px 0 8px; font-size: 15px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+.lede { color: var(--muted); margin: 0 0 12px; max-width: 72ch; }
+
+.summary {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 13.5px;
+}
+.summary.ok { background: var(--ok-bg); color: var(--ok); }
+.summary.fail { background: var(--fail-bg); color: var(--fail); }
+
+.group { margin-bottom: 28px; }
+
+table.results {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+table.results th {
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted);
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+}
+
+table.results td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+table.results tr:last-child td { border-bottom: none; }
+table.results td.name { font-weight: 500; }
+
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.fail { background: var(--fail-bg); color: var(--fail); }
+
+/* --- demo cards --------------------------------------------------------- */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    margin-top: 18px;
+    align-items: start;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+}
+
+.card h3 { margin: 0 0 4px; font-size: 16px; }
+.card .hint { color: var(--muted); font-size: 13px; margin: 0 0 14px; }
+
+.field-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; align-items: flex-start; }
+.field { display: flex; flex-direction: column; gap: 4px; flex: 1 1 140px; }
+.field.mid { flex: 0 1 160px; }
+.field label { font-size: 12px; color: var(--muted); }
+
+input.control, select.control {
+    font: inherit;
+    padding: 8px 10px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    width: 100%;
+    height: 38px;
+}
+input.control:focus, select.control:focus { outline: 2px solid var(--primary-weak); border-color: var(--primary); }
+
+.output {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px;
+    min-height: 22px;
+    word-break: break-word;
+}
+
+/* --- footer ------------------------------------------------------------- */
+
+.footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.footer a { color: var(--muted); text-decoration: none; }
+.footer a:hover { color: var(--primary); }
+.dot { opacity: .5; }

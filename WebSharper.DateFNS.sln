@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.DateFNS", "WebSharper.DateFNS\WebSharper.DateFNS.fsproj", "{03466B8A-5D55-426B-AB09-19C6F8479D00}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.DateFNS.Tests", "WebSharper.DateFNS.Tests\WebSharper.DateFNS.Tests.fsproj", "{2DBF7CC5-D919-47C9-839C-655F766552DA}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WebSharper.DateFNS.Sample", "WebSharper.DateFNS.Sample\WebSharper.DateFNS.Sample.fsproj", "{2DBF7CC5-D919-47C9-839C-655F766552DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
