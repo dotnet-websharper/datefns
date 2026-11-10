@@ -1,0 +1,9 @@
+{
+  "name": "WebSharper.DateFNS.Sample",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "esbuild": "^0.19.9",
+    "date-fns": "^4.4.0"
+  }
+}
