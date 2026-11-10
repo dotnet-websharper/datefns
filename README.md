@@ -136,7 +136,7 @@ dotnet paket pack ./nuget
 
 ## Deployment
 
-Pushes to `master` build the sample and deploy `dist/` to GitHub Pages
+Pushes to `main` build the sample and deploy `dist/` to GitHub Pages
 via `.github/workflows/ghpages.yml`.
 
 ## Repository layout
