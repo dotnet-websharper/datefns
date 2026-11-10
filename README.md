@@ -5,7 +5,7 @@
 WebSharper bindings for [date-fns](https://date-fns.org/) 4 — formatting, parsing,
 arithmetic, intervals, durations and locales for F# and C# web apps.
 
-The binding targets **date-fns 4.4.0** (`>= 4.0.0 < 5.0.0`) and is built for
+The binding targets **date-fns 4.4.0** (`>= 4.4.0 < 5.0.0`) and is built for
 WebSharper 10 on .NET 10.
 
 This repository contains:
